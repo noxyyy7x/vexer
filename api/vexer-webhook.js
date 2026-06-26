@@ -77,6 +77,7 @@ export default async function handler(req, res) {
     const shipping = payment?.billing_address;
     const orderNumber = generateOrderNumber();
     const meta = order?.metadata || {};
+    const SHEETS_URL = process.env.VEXER_SHEETS_URL || '';
 
     const itemCount = parseInt(meta.item_count || '1');
     const itemsHtml = Array.from({length: itemCount}, (_, i) => {
