@@ -68,8 +68,6 @@ export default async function handler(req, res) {
       return res.status(200).json({ received: true });
     }
     console.log('Processing Vexer order:', orderId);
-    console.log('Customer email:', payment?.payer?.email);
-    console.log('Order amount:', order?.amount);
 
     const payment = order?.payments?.[0];
     const customerEmail = payment?.payer?.email || '';
