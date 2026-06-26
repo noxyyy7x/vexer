@@ -742,7 +742,7 @@ function HomePage({setPage,onAdd,products,wishlist,onWishlist}){
 // ── GENDER PAGE ───────────────────────────────────────────────────────────────
 function GenderPage({gender,onAdd,setPage,products,wishlist,onWishlist}){
   const genderLabel={men:"Men's",women:"Women's",kids:"Kids'",babies:"Babies'"};
-  const all=(products||[]).filter(p=>(p.genderOptions||[]).map(g=>g.toLowerCase()).includes(gender));
+  const all=(products||[]).filter(p=>(p.genderOptions||[]).includes(gender));
 
   const availableLeagues=[...new Set(all.map(p=>p.league).filter(Boolean))];
   const availableBrands=[...new Set(all.map(p=>p.brand).filter(Boolean))];
