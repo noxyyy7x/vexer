@@ -104,7 +104,27 @@ export default async function handler(req, res) {
 
     const addressText = shipping ? `${shipping.street_line_1||''}, ${shipping.city||''}, ${shipping.postcode||''}` : 'N/A';
 
-    // Email to you
+        // Log to Google Sheets
+        if (SHEETS_URL) {
+        try {
+            await fetch(SHEETS_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                type: 'order',
+                orderNumber,
+                customerName,
+                customerEmail,
+                customerPhone,
+                total: parseFloat(total),
+                items: itemsText,
+                address: addressText,
+            }),
+            });
+        } catch(e) { console.error('Sheets error:', e.message); }
+        }
+
+        // Email to you
     await resend.emails.send({
       from: 'Vexer Orders <support@vexer.org>',
       to: 'support@vexer.org',
