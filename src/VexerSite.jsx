@@ -1478,6 +1478,311 @@ function SizeGuidePage(){
   );
 }
 
+// ── SHIPPING PAGE ─────────────────────────────────────────────────────────────
+function ShippingPage(){
+  return(
+    <div style={{paddingTop:64,minHeight:"100vh"}}>
+      <div style={{padding:"60px 24px 40px",textAlign:"center",borderBottom:"1px solid rgba(255,255,255,0.06)"}}>
+        <div className="orb" style={{fontSize:9,letterSpacing:"0.5em",color:"rgba(255,255,255,0.4)",marginBottom:12}}>VEXER</div>
+        <h1 className="orb" style={{fontSize:"clamp(2rem,5vw,4rem)",fontWeight:900,color:"#fff",marginBottom:12}}>SHIPPING</h1>
+        <p style={{fontSize:13,color:"rgba(255,255,255,0.4)"}}>Worldwide delivery on every order</p>
+      </div>
+
+      <div style={{maxWidth:720,margin:"0 auto",padding:"60px 24px 96px",display:"flex",flexDirection:"column",gap:16}}>
+
+        <div className="vx-glass" style={{padding:"28px"}}>
+          <div className="orb" style={{fontSize:9,letterSpacing:"0.3em",color:"rgba(255,255,255,0.4)",marginBottom:16}}>DELIVERY TIMEFRAME</div>
+          <div style={{fontSize:13,color:"rgba(255,255,255,0.5)",lineHeight:1.9}}>
+            All orders are delivered in approximately <strong style={{color:"#fff"}}>2 weeks</strong> from the date of purchase. This includes sourcing your jersey from our supplier and shipping it directly to your door.
+          </div>
+        </div>
+
+        <div className="vx-glass" style={{padding:"28px"}}>
+          <div className="orb" style={{fontSize:9,letterSpacing:"0.3em",color:"rgba(255,255,255,0.4)",marginBottom:16}}>SHIPPING COST</div>
+          <div style={{fontSize:13,color:"rgba(255,255,255,0.5)",lineHeight:1.9}}>
+            <strong style={{color:"#4ade80"}}>Shipping is included in the price</strong> of every jersey. There are no hidden fees or surprise charges at checkout.
+          </div>
+        </div>
+
+        <div className="vx-glass" style={{padding:"28px"}}>
+          <div className="orb" style={{fontSize:9,letterSpacing:"0.3em",color:"rgba(255,255,255,0.4)",marginBottom:16}}>WHERE WE SHIP</div>
+          <div style={{fontSize:13,color:"rgba(255,255,255,0.5)",lineHeight:1.9}}>
+            We ship <strong style={{color:"#fff"}}>worldwide</strong>. No matter where you are, we'll get your jersey to you.
+          </div>
+        </div>
+
+        <div className="vx-glass" style={{padding:"28px"}}>
+          <div className="orb" style={{fontSize:9,letterSpacing:"0.3em",color:"rgba(255,255,255,0.4)",marginBottom:16}}>ORDER TRACKING</div>
+          <div style={{fontSize:13,color:"rgba(255,255,255,0.5)",lineHeight:1.9}}>
+            <strong style={{color:"#fff"}}>UK customers</strong> receive a Royal Mail tracking number via email once their order is dispatched.<br/><br/>
+            <strong style={{color:"#fff"}}>International customers</strong> — we are currently working on bringing full tracking to all worldwide orders. You will receive a dispatch confirmation email when your order is on its way.
+          </div>
+        </div>
+
+        <div className="vx-glass" style={{padding:"28px"}}>
+          <div className="orb" style={{fontSize:9,letterSpacing:"0.3em",color:"rgba(255,255,255,0.4)",marginBottom:16}}>INTERNATIONAL CUSTOMS</div>
+          <div style={{fontSize:13,color:"rgba(255,255,255,0.5)",lineHeight:1.9}}>
+            International orders may be subject to customs duties or import taxes depending on your country. These charges are the responsibility of the customer and are not included in the jersey price. Please check your local customs regulations before ordering.
+          </div>
+        </div>
+
+        <div style={{padding:"24px",background:"rgba(88,101,242,0.06)",border:"1px solid rgba(88,101,242,0.2)",borderRadius:8,textAlign:"center"}}>
+          <div className="orb" style={{fontSize:9,letterSpacing:"0.3em",color:"rgba(255,255,255,0.4)",marginBottom:8}}>QUESTIONS ABOUT YOUR ORDER?</div>
+          <p style={{fontSize:13,color:"rgba(255,255,255,0.4)",marginBottom:16}}>Get in touch with us on Discord and we'll help right away.</p>
+          <a href="https://discord.gg/6Xk2HmgT9N" target="_blank" rel="noopener noreferrer" className="vx-btn vx-btn-white"
+            style={{padding:"12px 28px",fontSize:9,letterSpacing:"0.2em",textDecoration:"none",display:"inline-flex"}}>
+            JOIN DISCORD →
+          </a>
+        </div>
+
+      </div>
+    </div>
+  );
+}
+
+// ── RETURNS PAGE ──────────────────────────────────────────────────────────────
+function ReturnsPage(){
+  return(
+    <div style={{paddingTop:64,minHeight:"100vh"}}>
+      <div style={{padding:"60px 24px 40px",textAlign:"center",borderBottom:"1px solid rgba(255,255,255,0.06)"}}>
+        <div className="orb" style={{fontSize:9,letterSpacing:"0.5em",color:"rgba(255,255,255,0.4)",marginBottom:12}}>VEXER</div>
+        <h1 className="orb" style={{fontSize:"clamp(2rem,5vw,4rem)",fontWeight:900,color:"#fff",marginBottom:12}}>RETURNS</h1>
+        <p style={{fontSize:13,color:"rgba(255,255,255,0.4)"}}>Our returns policy explained</p>
+      </div>
+
+      <div style={{maxWidth:720,margin:"0 auto",padding:"60px 24px 96px",display:"flex",flexDirection:"column",gap:16}}>
+
+        <div style={{padding:"20px 24px",background:"rgba(239,68,68,0.06)",border:"1px solid rgba(239,68,68,0.2)",borderRadius:8}}>
+          <div className="orb" style={{fontSize:9,letterSpacing:"0.3em",color:"rgba(239,68,68,0.7)",marginBottom:8}}>CUSTOM JERSEYS — NO RETURNS</div>
+          <p style={{fontSize:13,color:"rgba(255,255,255,0.5)",lineHeight:1.8,margin:0}}>
+            Jerseys with a custom player name and/or number are made specifically for you and <strong style={{color:"#fff"}}>cannot be returned or exchanged</strong> unless the item arrives faulty or not as described.
+          </p>
+        </div>
+
+        <div className="vx-glass" style={{padding:"28px"}}>
+          <div className="orb" style={{fontSize:9,letterSpacing:"0.3em",color:"rgba(255,255,255,0.4)",marginBottom:16}}>STANDARD JERSEYS</div>
+          <div style={{fontSize:13,color:"rgba(255,255,255,0.5)",lineHeight:1.9}}>
+            Returns are accepted on standard jerseys (without custom name/number) within <strong style={{color:"#fff"}}>3 days of receiving your order</strong>. The jersey must be unworn, unwashed and in its original condition.
+          </div>
+        </div>
+
+        <div className="vx-glass" style={{padding:"28px"}}>
+          <div className="orb" style={{fontSize:9,letterSpacing:"0.3em",color:"rgba(255,255,255,0.4)",marginBottom:16}}>FAULTY OR INCORRECT ITEMS</div>
+          <div style={{fontSize:13,color:"rgba(255,255,255,0.5)",lineHeight:1.9}}>
+            If your jersey arrives faulty, damaged or not as described please contact us immediately on Discord with photos of the issue and your order number. We will resolve this as quickly as possible.
+          </div>
+        </div>
+
+        <div className="vx-glass" style={{padding:"28px"}}>
+          <div className="orb" style={{fontSize:9,letterSpacing:"0.3em",color:"rgba(255,255,255,0.4)",marginBottom:16}}>HOW TO REQUEST A RETURN</div>
+          <div style={{fontSize:13,color:"rgba(255,255,255,0.5)",lineHeight:1.9}}>
+            To request a return open a ticket on our Discord server within 3 days of receiving your order. Include your order number and reason for return. Our team will guide you through the process.
+          </div>
+        </div>
+
+        <div className="vx-glass" style={{padding:"28px"}}>
+          <div className="orb" style={{fontSize:9,letterSpacing:"0.3em",color:"rgba(255,255,255,0.4)",marginBottom:16}}>RETURN SHIPPING</div>
+          <div style={{fontSize:13,color:"rgba(255,255,255,0.5)",lineHeight:1.9}}>
+            Return shipping costs are the responsibility of the customer unless the item is faulty or incorrect.
+          </div>
+        </div>
+
+        <div style={{padding:"24px",background:"rgba(88,101,242,0.06)",border:"1px solid rgba(88,101,242,0.2)",borderRadius:8,textAlign:"center"}}>
+          <div className="orb" style={{fontSize:9,letterSpacing:"0.3em",color:"rgba(255,255,255,0.4)",marginBottom:8}}>NEED TO RETURN SOMETHING?</div>
+          <p style={{fontSize:13,color:"rgba(255,255,255,0.4)",marginBottom:16}}>Open a support ticket on Discord and we'll sort it out.</p>
+          <a href="https://discord.gg/6Xk2HmgT9N" target="_blank" rel="noopener noreferrer" className="vx-btn vx-btn-white"
+            style={{padding:"12px 28px",fontSize:9,letterSpacing:"0.2em",textDecoration:"none",display:"inline-flex"}}>
+            JOIN DISCORD →
+          </a>
+        </div>
+
+      </div>
+    </div>
+  );
+}
+
+// ── PRIVACY PAGE ──────────────────────────────────────────────────────────────
+function PrivacyPage(){
+  const Section=({title,children})=>(
+    <div className="vx-glass" style={{padding:"28px",marginBottom:16}}>
+      <div className="orb" style={{fontSize:9,letterSpacing:"0.3em",color:"rgba(255,255,255,0.4)",marginBottom:12}}>{title}</div>
+      <div style={{fontSize:13,color:"rgba(255,255,255,0.5)",lineHeight:1.9}}>{children}</div>
+    </div>
+  );
+
+  return(
+    <div style={{paddingTop:64,minHeight:"100vh"}}>
+      <div style={{padding:"60px 24px 40px",textAlign:"center",borderBottom:"1px solid rgba(255,255,255,0.06)"}}>
+        <div className="orb" style={{fontSize:9,letterSpacing:"0.5em",color:"rgba(255,255,255,0.4)",marginBottom:12}}>VEXER</div>
+        <h1 className="orb" style={{fontSize:"clamp(2rem,5vw,4rem)",fontWeight:900,color:"#fff",marginBottom:12}}>PRIVACY POLICY</h1>
+        <p style={{fontSize:13,color:"rgba(255,255,255,0.4)"}}>Last updated: June 2026</p>
+      </div>
+
+      <div style={{maxWidth:720,margin:"0 auto",padding:"60px 24px 96px"}}>
+
+        <Section title="WHO WE ARE">
+          Vexer is an online football jersey store operating at vexer.org. We are committed to protecting your personal information and being transparent about how we use it. For any privacy related questions contact us at <strong style={{color:"#fff"}}>support@vexer.org</strong>.
+        </Section>
+
+        <Section title="INFORMATION WE COLLECT">
+          When you place an order we collect your name, email address, phone number, delivery address and payment information. Payment information is processed securely by Revolut and we do not store your card details. We also collect cookies and browsing data to improve your experience on our site.
+        </Section>
+
+        <Section title="HOW WE USE YOUR INFORMATION">
+          We use your information to process and fulfil your order, send you order confirmation and dispatch emails, respond to your enquiries and improve our website and services. We do not sell your personal information to third parties.
+        </Section>
+
+        <Section title="COOKIES">
+          We use cookies to remember your preferences and improve your browsing experience. You can accept or reject cookies using the banner shown when you first visit our site. Rejecting cookies will not affect your ability to shop with us.
+        </Section>
+
+        <Section title="DATA SHARING">
+          We share your delivery information with our shipping partners solely for the purpose of delivering your order. We use Revolut to process payments securely. We do not share your data with any other third parties for marketing purposes.
+        </Section>
+
+        <Section title="DATA RETENTION">
+          We retain your order information for up to 7 years for legal and accounting purposes. You may request deletion of your personal data at any time by contacting us at support@vexer.org.
+        </Section>
+
+        <Section title="YOUR RIGHTS">
+          You have the right to access the personal data we hold about you, request correction of inaccurate data, request deletion of your data, and opt out of any marketing communications. To exercise any of these rights contact us at <strong style={{color:"#fff"}}>support@vexer.org</strong>.
+        </Section>
+
+        <Section title="CONTACT US">
+          If you have any questions about this privacy policy or how we handle your data please contact us at <strong style={{color:"#fff"}}>support@vexer.org</strong> or via our <a href="https://discord.gg/6Xk2HmgT9N" target="_blank" rel="noopener noreferrer" style={{color:"#fff"}}>Discord</a>.
+        </Section>
+
+      </div>
+    </div>
+  );
+}
+
+// ── TERMS PAGE ────────────────────────────────────────────────────────────────
+function TermsPage(){
+  const Section=({title,children})=>(
+    <div className="vx-glass" style={{padding:"28px",marginBottom:16}}>
+      <div className="orb" style={{fontSize:9,letterSpacing:"0.3em",color:"rgba(255,255,255,0.4)",marginBottom:12}}>{title}</div>
+      <div style={{fontSize:13,color:"rgba(255,255,255,0.5)",lineHeight:1.9}}>{children}</div>
+    </div>
+  );
+
+  return(
+    <div style={{paddingTop:64,minHeight:"100vh"}}>
+      <div style={{padding:"60px 24px 40px",textAlign:"center",borderBottom:"1px solid rgba(255,255,255,0.06)"}}>
+        <div className="orb" style={{fontSize:9,letterSpacing:"0.5em",color:"rgba(255,255,255,0.4)",marginBottom:12}}>VEXER</div>
+        <h1 className="orb" style={{fontSize:"clamp(2rem,5vw,4rem)",fontWeight:900,color:"#fff",marginBottom:12}}>TERMS & CONDITIONS</h1>
+        <p style={{fontSize:13,color:"rgba(255,255,255,0.4)"}}>Last updated: June 2026</p>
+      </div>
+
+      <div style={{maxWidth:720,margin:"0 auto",padding:"60px 24px 96px"}}>
+
+        <Section title="ACCEPTANCE OF TERMS">
+          By placing an order on vexer.org you agree to these terms and conditions in full. If you do not agree with any part of these terms please do not use our website.
+        </Section>
+
+        <Section title="ABOUT OUR PRODUCTS">
+          Vexer sells football jerseys. All jerseys sold on vexer.org are unlicensed replica products and are not affiliated with, endorsed by or connected to any official football club, national team, league or governing body. By purchasing from us you acknowledge and accept this.
+        </Section>
+
+        <Section title="ORDERING">
+          By placing an order you confirm that all information provided is accurate and complete. We reserve the right to cancel any order at our discretion. Once an order is placed it cannot be modified. All prices are displayed in GBP and include shipping.
+        </Section>
+
+        <Section title="PAYMENTS">
+          All payments are processed securely by Revolut. We accept all major debit and credit cards, Apple Pay, Google Pay and Revolut. Payment is taken in full at the time of ordering.
+        </Section>
+
+        <Section title="DELIVERY">
+          We aim to deliver all orders within approximately 2 weeks. Delivery times are estimates and not guaranteed. We are not responsible for delays caused by customs, postal services or circumstances beyond our control.
+        </Section>
+
+        <Section title="RETURNS & REFUNDS">
+          Custom jerseys with player names or numbers cannot be returned. Standard jerseys may be returned within 3 days of receipt in unworn and original condition. Faulty or incorrect items will be replaced or refunded. Please see our <strong style={{color:"#fff"}}>Returns Policy</strong> for full details.
+        </Section>
+
+        <Section title="INTELLECTUAL PROPERTY">
+          All content on vexer.org including our logo, branding and website design is the property of Vexer and may not be reproduced without written permission.
+        </Section>
+
+        <Section title="LIMITATION OF LIABILITY">
+          Vexer is not liable for any indirect or consequential loss arising from the use of our website or products. Our liability is limited to the value of the order placed.
+        </Section>
+
+        <Section title="CHANGES TO TERMS">
+          We reserve the right to update these terms at any time. Continued use of vexer.org following any changes constitutes acceptance of the updated terms.
+        </Section>
+
+        <Section title="CONTACT">
+          For any questions regarding these terms contact us at <strong style={{color:"#fff"}}>support@vexer.org</strong> or via our <a href="https://discord.gg/6Xk2HmgT9N" target="_blank" rel="noopener noreferrer" style={{color:"#fff"}}>Discord</a>.
+        </Section>
+
+      </div>
+    </div>
+  );
+}
+
+// ── SITEMAP PAGE ──────────────────────────────────────────────────────────────
+function SitemapPage({setPage}){
+  const sections=[
+    {
+      title:"SHOP",
+      links:[
+        {label:"Men's Jerseys",page:"gender_men"},
+        {label:"Women's Jerseys",page:"gender_women"},
+        {label:"Kids' Jerseys",page:"gender_kids"},
+        {label:"Babies' Jerseys",page:"gender_babies"},
+      ]
+    },
+    {
+      title:"INFO",
+      links:[
+        {label:"FAQs",page:"faqs"},
+        {label:"Size Guide",page:"sizeguide"},
+        {label:"Shipping",page:"shipping"},
+        {label:"Returns",page:"returns"},
+        {label:"Reviews",page:"reviews"},
+        {label:"Contact",page:"contact"},
+      ]
+    },
+    {
+      title:"LEGAL",
+      links:[
+        {label:"Privacy Policy",page:"privacy"},
+        {label:"Terms & Conditions",page:"terms"},
+      ]
+    },
+  ];
+
+  return(
+    <div style={{paddingTop:64,minHeight:"100vh"}}>
+      <div style={{padding:"60px 24px 40px",textAlign:"center",borderBottom:"1px solid rgba(255,255,255,0.06)"}}>
+        <div className="orb" style={{fontSize:9,letterSpacing:"0.5em",color:"rgba(255,255,255,0.4)",marginBottom:12}}>VEXER</div>
+        <h1 className="orb" style={{fontSize:"clamp(2rem,5vw,4rem)",fontWeight:900,color:"#fff"}}>SITEMAP</h1>
+      </div>
+
+      <div style={{maxWidth:720,margin:"0 auto",padding:"60px 24px 96px"}}>
+        <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(200px,1fr))",gap:24}}>
+          {sections.map(section=>(
+            <div key={section.title} className="vx-glass" style={{padding:"24px"}}>
+              <div className="orb" style={{fontSize:9,letterSpacing:"0.3em",color:"rgba(255,255,255,0.4)",marginBottom:16}}>{section.title}</div>
+              <div style={{display:"flex",flexDirection:"column",gap:8}}>
+                {section.links.map(link=>(
+                  <button key={link.page} onClick={()=>setPage(link.page)}
+                    style={{background:"none",border:"none",cursor:"pointer",fontSize:13,color:"rgba(255,255,255,0.5)",textAlign:"left",padding:0,transition:"color 0.2s"}}
+                    onMouseEnter={e=>e.currentTarget.style.color="#fff"}
+                    onMouseLeave={e=>e.currentTarget.style.color="rgba(255,255,255,0.5)"}>
+                    → {link.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ── APP ───────────────────────────────────────────────────────────────────────
 const INFO_PAGES=["faqs","sizeguide","shipping","returns","privacy","terms","sitemap"];
 
@@ -1554,6 +1859,11 @@ export default function App(){
     if(page.startsWith("gender_")) return<GenderPage gender={page.replace("gender_","")} onAdd={addToCart} setPage={navigate} products={products} wishlist={wishlist} onWishlist={toggleWishlist}/>;
     if(page==="faqs") return<FAQsPage setPage={navigate}/>;
     if(page==="sizeguide") return<SizeGuidePage/>;
+    if(page==="shipping") return<ShippingPage/>;
+    if(page==="returns") return<ReturnsPage/>;
+    if(page==="privacy") return<PrivacyPage/>;
+    if(page==="terms") return<TermsPage/>;
+    if(page==="sitemap") return<SitemapPage setPage={navigate}/>;
     if(INFO_PAGES.includes(page)) return(
     <div style={{paddingTop:120,textAlign:"center",minHeight:"60vh"}}>
         <div className="orb" style={{fontSize:20,color:"rgba(255,255,255,0.1)",marginBottom:16}}>{page.toUpperCase()}</div>
