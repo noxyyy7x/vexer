@@ -603,10 +603,20 @@ function ReviewsPage(){
     if(!form.name||!form.comment){setErr("Please fill in your name and review.");return;}
     setErr("");setSending(true);
     try{
+      let imageBase64=null;
+      let imageType=null;
+      if(image){
+        const reader=new FileReader();
+        await new Promise(resolve=>{
+          reader.onload=e=>{imageBase64=e.target.result;resolve();};
+          reader.readAsDataURL(image);
+        });
+        imageType=image.type;
+      }
       const res=await fetch('/api/submit-review',{
         method:'POST',
         headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({...form}),
+        body:JSON.stringify({...form,imageBase64,imageType}),
       });
       const data=await res.json();
       if(data.success){setSent(true);}
