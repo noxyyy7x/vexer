@@ -410,9 +410,9 @@ function CartPanel({items,onClose,onRemove,setPage}){
 function HeroCarousel({setPage}){
   const [current,setCurrent]=useState(0);
   const slides=[
-    {key:"national",label:"NATIONAL",sub:"Club Jerseys",desc:"The world's greatest club kits. Premier League, La Liga, Serie A and more.",cta:"SHOP NATIONAL",page:"gender_men",img:"/hero-national.jpg"},
-    {key:"international",label:"INTERNATIONAL",sub:"Country Kits",desc:"Represent your nation. International kits from every corner of the globe.",cta:"SHOP INTERNATIONAL",page:"gender_men",img:"/hero-international.jpg"},
-    {key:"retro",label:"RETRO",sub:"Classic Kits",desc:"Iconic jerseys from football's greatest eras. Own a piece of history.",cta:"SHOP RETRO",page:"gender_men",img:"/hero-retro.jpg"},
+    {key:"national",label:"NATIONAL",sub:"Club Jerseys",desc:"The world's greatest club kits. Premier League, La Liga, Serie A and more.",cta:"SHOP NATIONAL",page:"gender_men",cat:"national",img:"/hero-national.jpg"},
+    {key:"international",label:"INTERNATIONAL",sub:"Country Kits",desc:"Represent your nation. International kits from every corner of the globe.",cta:"SHOP INTERNATIONAL",page:"gender_men",cat:"international",img:"/hero-international.jpg"},
+    {key:"retro",label:"RETRO",sub:"Classic Kits",desc:"Iconic jerseys from football's greatest eras. Own a piece of history.",cta:"SHOP RETRO",page:"gender_men",cat:"retro",img:"/hero-retro.jpg"},
   ];
 
   useEffect(()=>{
@@ -738,7 +738,7 @@ function HomePage({setPage,onAdd,products,wishlist,onWishlist}){
 }
 
 // ── GENDER PAGE ───────────────────────────────────────────────────────────────
-function GenderPage({gender,onAdd,setPage,products,wishlist,onWishlist}){
+function GenderPage({gender,onAdd,setPage,products,wishlist,onWishlist,initialCategory,onCategoryUsed}){
   const genderLabel={men:"Men's",women:"Women's",kids:"Kids'",babies:"Babies'"};
   const all=(products||[]).filter(p=>(p.genderOptions||[]).includes(gender));
 
@@ -747,7 +747,8 @@ function GenderPage({gender,onAdd,setPage,products,wishlist,onWishlist}){
   const availableSeasons=[...new Set(all.map(p=>p.season).filter(Boolean))];
   const availableKitTypes=[...new Set(all.map(p=>p.kitType).filter(Boolean))];
 
-  const [filters,setFilters]=useState({category:"",league:"",brand:"",season:"",kitType:"",playerName:false});
+  const [filters,setFilters]=useState({category:initialCategory||"",league:"",brand:"",season:"",kitType:"",playerName:false});
+  useEffect(()=>{if(initialCategory){onCategoryUsed&&onCategoryUsed();}},[]);
   const setF=(k,v)=>setFilters(f=>({...f,[k]:v}));
   const anyActive=Object.values(filters).some(v=>v);
 
@@ -1826,7 +1827,7 @@ export default function App(){
     try{const s=localStorage.getItem("vexer_wishlist");return s?JSON.parse(s):[];}catch{return[];}
   });
 
-  const [cartOpen,setCartOpen]=useState(false);
+  const [categoryFilter,setCategoryFilter]=useState("");
 
   useEffect(()=>{localStorage.setItem("vexer_cart",JSON.stringify(cart));},[cart]);
   useEffect(()=>{localStorage.setItem("vexer_wishlist",JSON.stringify(wishlist));},[wishlist]);
@@ -1848,13 +1849,13 @@ export default function App(){
 
   const renderPage=()=>{
     if(page==="order-success") return<OrderSuccessPage setPage={navigate}/>;
-    if(page==="home") return<HomePage setPage={navigate} onAdd={addToCart} products={products} wishlist={wishlist} onWishlist={toggleWishlist}/>;
+    if(page==="home") return<HomePage setPage={navigate} onAdd={addToCart} products={products} wishlist={wishlist} onWishlist={toggleWishlist} setCategoryFilter={setCategoryFilter}/>;
     if(page==="dispatch") return<DispatchPortal/>;
     if(page==="reviews") return<ReviewsPage/>;
     if(page==="contact") return<ContactPage/>;
     if(page==="wishlist") return<WishlistPage wishlist={wishlist} products={products} onAdd={addToCart} setPage={navigate} onWishlist={toggleWishlist}/>;
     if(page.startsWith("product_")) return<ProductPage productId={page.replace("product_","")} onAdd={addToCart} setPage={navigate} products={products} wishlist={wishlist} onWishlist={toggleWishlist}/>;
-    if(page.startsWith("gender_")) return<GenderPage gender={page.replace("gender_","")} onAdd={addToCart} setPage={navigate} products={products} wishlist={wishlist} onWishlist={toggleWishlist}/>;
+    if(page.startsWith("gender_")) return<GenderPage gender={page.replace("gender_","")} onAdd={addToCart} setPage={navigate} products={products} wishlist={wishlist} onWishlist={toggleWishlist} initialCategory={categoryFilter} onCategoryUsed={()=>setCategoryFilter("")}/>;
     if(page==="faqs") return<FAQsPage setPage={navigate}/>;
     if(page==="sizeguide") return<SizeGuidePage/>;
     if(page==="shipping") return<ShippingPage/>;
