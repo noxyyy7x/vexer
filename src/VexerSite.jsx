@@ -119,7 +119,8 @@ function Navbar({page,setPage,cartCount,onCart,products,wishlist}){
         <div style={{display:"flex",alignItems:"center",gap:4}}>
           {/* Search */}
           <div style={{position:"relative"}}>
-            <button onClick={()=>{setSearchOpen(!searchOpen);setSearchQ("");}} className="vx-btn vx-btn-dark" style={{padding:"8px 12px",fontSize:16,borderRadius:4}}>🔍</button>
+            <button onClick={()=>{setSearchOpen(!searchOpen);setSearchQ("");}} style={{background:"none",border:"none",cursor:"pointer",padding:"8px",fontSize:20,color:"rgba(255,255,255,0.7)",transition:"color 0.2s"}}
+              onMouseEnter={e=>e.currentTarget.style.color="#fff"} onMouseLeave={e=>e.currentTarget.style.color="rgba(255,255,255,0.7)"}>🔍</button>
             <AnimatePresence>
               {searchOpen&&(
                 <motion.div initial={{opacity:0,y:-8}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-8}}
@@ -153,7 +154,8 @@ function Navbar({page,setPage,cartCount,onCart,products,wishlist}){
           </div>
 
           {/* Wishlist */}
-          <button onClick={()=>setPage("wishlist")} className="vx-btn vx-btn-dark" style={{padding:"8px 12px",fontSize:16,borderRadius:4,position:"relative"}}>
+          <button onClick={()=>setPage("wishlist")} style={{background:"none",border:"none",cursor:"pointer",padding:"8px",fontSize:20,color:"rgba(255,255,255,0.7)",transition:"color 0.2s",position:"relative"}}
+            onMouseEnter={e=>e.currentTarget.style.color="#fff"} onMouseLeave={e=>e.currentTarget.style.color="rgba(255,255,255,0.7)"}>
             🤍
             {wishlist?.length>0&&<span style={{position:"absolute",top:-4,right:-4,background:"#fff",color:"#050508",borderRadius:"50%",width:16,height:16,fontSize:9,display:"flex",alignItems:"center",justifyContent:"center",fontWeight:700,fontFamily:"'Orbitron',sans-serif"}}>{wishlist.length}</span>}
           </button>
@@ -225,7 +227,7 @@ function CookieConsent(){
   if(!show) return null;
   return(
     <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} exit={{opacity:0,y:20}}
-      style={{position:"fixed",bottom:20,left:"50%",transform:"translateX(-50%)",zIndex:99998,width:"min(500px,calc(100vw - 32px))",background:"rgba(10,10,15,0.98)",backdropFilter:"blur(20px)",border:"1px solid rgba(255,255,255,0.1)",borderRadius:8,padding:"16px 20px",display:"flex",flexWrap:"wrap",alignItems:"center",justifyContent:"space-between",gap:12,boxShadow:"0 8px 32px rgba(0,0,0,0.8)"}}>
+      style={{position:"fixed",bottom:0,left:0,right:0,zIndex:99998,width:"100%",background:"rgba(10,10,15,0.98)",backdropFilter:"blur(20px)",border:"1px solid rgba(255,255,255,0.1)",borderRadius:8,padding:"16px 20px",display:"flex",flexWrap:"wrap",alignItems:"center",justifyContent:"space-between",gap:12,boxShadow:"0 8px 32px rgba(0,0,0,0.8)"}}>
       <p style={{fontSize:12,color:"rgba(255,255,255,0.5)",margin:0,flex:1}}>We use cookies to improve your experience on <span style={{color:"#fff"}}>vexer.org</span></p>
       <div style={{display:"flex",gap:8}}>
         <button onClick={()=>{localStorage.setItem("vexer_cookies","rejected");setShow(false);}} className="vx-btn vx-btn-outline" style={{padding:"7px 16px",fontSize:9}}>REJECT</button>
