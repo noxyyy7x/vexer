@@ -91,8 +91,15 @@ function Navbar({page,setPage,cartCount,onCart,products,wishlist}){
       <div style={{maxWidth:1400,margin:"0 auto",padding:"0 24px",height:64,display:"flex",alignItems:"center",justifyContent:"space-between"}}>
         
         {/* Logo */}
-        <div onClick={()=>{setPage("home");setMenuOpen(false);}} style={{cursor:"pointer",flexShrink:0}}>
-          <img src="/logo.png" alt="Vexer" style={{height:36,width:"auto"}}/>
+        <div
+        onMouseDown={()=>{window._dh=setTimeout(()=>{window._dispatched=true;setPage("dispatch");},3000);}}
+        onMouseUp={()=>clearTimeout(window._dh)}
+        onMouseLeave={()=>clearTimeout(window._dh)}
+        onTouchStart={()=>{window._dh=setTimeout(()=>{window._dispatched=true;setPage("dispatch");},3000);}}
+        onTouchEnd={()=>clearTimeout(window._dh)}
+        onClick={e=>{if(window._dispatched){window._dispatched=false;return;}setPage("home");setMenuOpen(false);}}
+        style={{cursor:"pointer",flexShrink:0}}>
+        <img src="/logo.png" alt="Vexer" style={{height:36,width:"auto"}}/>
         </div>
 
         {/* Desktop Gender Nav */}
@@ -1135,6 +1142,98 @@ function Footer({setPage}){
   );
 }
 
+// ── DISPATCH PORTAL ───────────────────────────────────────────────────────────
+function DispatchPortal(){
+  const [authed,setAuthed]=useState(false);
+  const [pw,setPw]=useState("");
+  const [pwErr,setPwErr]=useState(false);
+  const [form,setForm]=useState({customerEmail:"",orderNumber:"",trackingNumber:""});
+  const [sending,setSending]=useState(false);
+  const [sent,setSent]=useState(false);
+  const [err,setErr]=useState("");
+  const upd=(k,v)=>setForm(f=>({...f,[k]:v}));
+
+  if(!authed) return(
+    <div style={{minHeight:"100vh",display:"flex",alignItems:"center",justifyContent:"center",background:"#050508"}}>
+      <motion.div initial={{opacity:0,scale:0.95}} animate={{opacity:1,scale:1}}
+        style={{width:360,padding:"48px 36px",textAlign:"center"}} className="vx-glass">
+        <img src="/logo.png" alt="Vexer" style={{height:48,width:"auto",marginBottom:24}}/>
+        <div className="orb" style={{fontSize:10,letterSpacing:"0.4em",color:"rgba(255,255,255,0.4)",marginBottom:24}}>DISPATCH PORTAL</div>
+        <input className="vx-input" type="password" placeholder="Enter password" value={pw}
+          onChange={e=>{setPw(e.target.value);setPwErr(false);}}
+          onKeyDown={e=>e.key==="Enter"&&(pw==="Mcfc4mq7$$$"?setAuthed(true):setPwErr(true))}
+          style={{marginBottom:12,textAlign:"center",letterSpacing:"0.1em"}}/>
+        {pwErr&&<div style={{fontSize:10,color:"#fca5a5",marginBottom:12}}>Incorrect password</div>}
+        <button className="vx-btn vx-btn-white" style={{width:"100%",padding:"13px",fontSize:9,letterSpacing:"0.2em"}}
+          onClick={()=>pw==="Mcfc4mq7$$$"?setAuthed(true):setPwErr(true)}>
+          ACCESS PORTAL
+        </button>
+      </motion.div>
+    </div>
+  );
+
+  return(
+    <div style={{minHeight:"100vh",background:"#050508",padding:"40px 24px",paddingTop:80}}>
+      <div style={{maxWidth:560,margin:"0 auto"}}>
+        <div style={{textAlign:"center",marginBottom:40}}>
+          <img src="/logo.png" alt="Vexer" style={{height:48,width:"auto",marginBottom:16}}/>
+          <div className="orb" style={{fontSize:10,letterSpacing:"0.4em",color:"rgba(255,255,255,0.4)"}}>DISPATCH PORTAL</div>
+        </div>
+
+        {sent?(
+          <motion.div initial={{opacity:0,scale:0.95}} animate={{opacity:1,scale:1}}
+            className="vx-glass" style={{padding:"40px",textAlign:"center"}}>
+            <div style={{fontSize:32,marginBottom:16}}>✅</div>
+            <div className="orb" style={{fontSize:13,color:"#fff",marginBottom:8}}>TRACKING EMAIL SENT</div>
+            <p style={{fontSize:12,color:"rgba(255,255,255,0.4)",marginBottom:24}}>Sent to {form.customerEmail}</p>
+            <button className="vx-btn vx-btn-white" style={{padding:"12px 28px",fontSize:9,letterSpacing:"0.2em"}}
+              onClick={()=>{setSent(false);setForm({customerEmail:"",orderNumber:"",trackingNumber:""});}}>
+              SEND ANOTHER
+            </button>
+          </motion.div>
+        ):(
+          <div className="vx-glass" style={{padding:"32px"}}>
+            <div className="orb" style={{fontSize:9,letterSpacing:"0.4em",color:"rgba(255,255,255,0.5)",marginBottom:24}}>SEND TRACKING EMAIL</div>
+            <div style={{display:"flex",flexDirection:"column",gap:16}}>
+              <div>
+                <label style={{fontSize:9,fontFamily:"'Orbitron',sans-serif",letterSpacing:"0.25em",color:"rgba(255,255,255,0.4)",display:"block",marginBottom:8}}>CUSTOMER EMAIL *</label>
+                <input className="vx-input" placeholder="customer@email.com" value={form.customerEmail} onChange={e=>upd("customerEmail",e.target.value)}/>
+              </div>
+              <div>
+                <label style={{fontSize:9,fontFamily:"'Orbitron',sans-serif",letterSpacing:"0.25em",color:"rgba(255,255,255,0.4)",display:"block",marginBottom:8}}>ORDER NUMBER *</label>
+                <input className="vx-input" placeholder="VEXER-1234" value={form.orderNumber} onChange={e=>upd("orderNumber",e.target.value)}/>
+              </div>
+              <div>
+                <label style={{fontSize:9,fontFamily:"'Orbitron',sans-serif",letterSpacing:"0.25em",color:"rgba(255,255,255,0.4)",display:"block",marginBottom:8}}>TRACKING NUMBER *</label>
+                <input className="vx-input" placeholder="Tracking number" value={form.trackingNumber} onChange={e=>upd("trackingNumber",e.target.value.toUpperCase())}/>
+              </div>
+              {err&&<div style={{fontSize:10,color:"#fca5a5",fontFamily:"'Orbitron',sans-serif"}}>{err}</div>}
+              <button className="vx-btn vx-btn-white" style={{width:"100%",padding:"15px",fontSize:10,letterSpacing:"0.25em",opacity:sending?0.7:1}}
+                onClick={async()=>{
+                  if(!form.customerEmail||!form.orderNumber||!form.trackingNumber){setErr("Please fill in all fields.");return;}
+                  setErr("");setSending(true);
+                  try{
+                    const res=await fetch('/api/send-tracking-vexer',{
+                      method:'POST',
+                      headers:{'Content-Type':'application/json'},
+                      body:JSON.stringify(form),
+                    });
+                    const data=await res.json();
+                    if(data.success){setSent(true);}
+                    else{setErr("Failed to send. Please try again.");}
+                  }catch(e){setErr("Failed to send. Please try again.");}
+                  setSending(false);
+                }}>
+                {sending?"SENDING...":"SEND TRACKING EMAIL"}
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 // ── APP ───────────────────────────────────────────────────────────────────────
 const INFO_PAGES=["faqs","sizeguide","shipping","returns","privacy","terms","sitemap"];
 
@@ -1187,6 +1286,7 @@ export default function App(){
   const renderPage=()=>{
     if(page==="order-success") return<OrderSuccessPage setPage={navigate}/>;
     if(page==="home") return<HomePage setPage={navigate} onAdd={addToCart} products={products} wishlist={wishlist} onWishlist={toggleWishlist}/>;
+    if(page==="dispatch") return<DispatchPortal/>;
     if(page==="reviews") return<ReviewsPage/>;
     if(page==="contact") return<ContactPage/>;
     if(page==="wishlist") return<WishlistPage wishlist={wishlist} products={products} onAdd={addToCart} setPage={navigate} onWishlist={toggleWishlist}/>;
