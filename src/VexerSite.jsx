@@ -410,9 +410,9 @@ function CartPanel({items,onClose,onRemove,setPage}){
 function HeroCarousel({setPage}){
   const [current,setCurrent]=useState(0);
   const slides=[
-    {key:"national",label:"NATIONAL",sub:"Club Jerseys",desc:"The world's greatest club kits. Premier League, La Liga, Serie A and more.",cta:"SHOP NATIONAL",page:"gender_men",color:"#fff",bg:"linear-gradient(135deg,#0a0a14 0%,#0d1a2e 100%)"},
-    {key:"international",label:"INTERNATIONAL",sub:"Country Kits",desc:"Represent your nation. International kits from every corner of the globe.",cta:"SHOP INTERNATIONAL",page:"gender_men",color:"#fff",bg:"linear-gradient(135deg,#0a0a0a 0%,#1a0a0a 100%)"},
-    {key:"retro",label:"RETRO",sub:"Classic Kits",desc:"Iconic jerseys from football's greatest eras. Own a piece of history.",cta:"SHOP RETRO",page:"gender_men",color:"#fff",bg:"linear-gradient(135deg,#0a0a0a 0%,#1a1a0a 100%)"},
+    {key:"national",label:"NATIONAL",sub:"Club Jerseys",desc:"The world's greatest club kits. Premier League, La Liga, Serie A and more.",cta:"SHOP NATIONAL",page:"gender_men",img:"/hero-national.jpg"},
+    {key:"international",label:"INTERNATIONAL",sub:"Country Kits",desc:"Represent your nation. International kits from every corner of the globe.",cta:"SHOP INTERNATIONAL",page:"gender_men",img:"/hero-international.jpg"},
+    {key:"retro",label:"RETRO",sub:"Classic Kits",desc:"Iconic jerseys from football's greatest eras. Own a piece of history.",cta:"SHOP RETRO",page:"gender_men",img:"/hero-retro.jpg"},
   ];
 
   useEffect(()=>{
@@ -424,11 +424,9 @@ function HeroCarousel({setPage}){
     <div style={{height:"100vh",position:"relative",overflow:"hidden",paddingTop:64}}>
       <AnimatePresence mode="wait">
         <motion.div key={current} initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} transition={{duration:0.8}}
-          style={{position:"absolute",inset:0,background:slides[current].bg}}>
-          {/* Grid pattern */}
-          <div style={{position:"absolute",inset:0,backgroundImage:"linear-gradient(rgba(255,255,255,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.02) 1px,transparent 1px)",backgroundSize:"80px 80px"}}/>
-          {/* Glow */}
-          <div style={{position:"absolute",top:"20%",left:"50%",transform:"translateX(-50%)",width:600,height:600,background:"radial-gradient(circle,rgba(255,255,255,0.04) 0%,transparent 70%)",borderRadius:"50%"}}/>
+          style={{position:"absolute",inset:0}}>
+          <img src={slides[current].img} alt={slides[current].label} style={{width:"100%",height:"100%",objectFit:"cover",filter:"brightness(0.35)"}}/>
+          <div style={{position:"absolute",inset:0,background:"linear-gradient(180deg,rgba(5,5,8,0.3) 0%,rgba(5,5,8,0.6) 100%)"}}/>
         </motion.div>
       </AnimatePresence>
 
