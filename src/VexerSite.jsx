@@ -1827,6 +1827,7 @@ export default function App(){
     try{const s=localStorage.getItem("vexer_wishlist");return s?JSON.parse(s):[];}catch{return[];}
   });
 
+  const [cartOpen,setCartOpen]=useState(false);
   const [categoryFilter,setCategoryFilter]=useState("");
 
   useEffect(()=>{localStorage.setItem("vexer_cart",JSON.stringify(cart));},[cart]);
