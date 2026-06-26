@@ -47,8 +47,10 @@ export default async function handler(req, res) {
   try { event = JSON.parse(rawBody); } catch(err) { return res.status(400).json({ error: 'Invalid JSON' }); }
 
   if (event.event === 'ORDER_COMPLETED') {
-    // Only process Vexer orders
-    if (event.merchant_order_ext_ref && event.merchant_order_ext_ref.startsWith('ANAYX-')) {
+    const extRef = event.merchant_order_ext_ref || '';
+    console.log('Vexer webhook - Order ext ref:', extRef);
+    if (extRef.startsWith('ANAYX-')) {
+      console.log('Skipping ANAYX order');
       return res.status(200).json({ received: true });
     }
     const orderId = event.order_id;
