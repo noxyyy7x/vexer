@@ -1147,6 +1147,7 @@ function DispatchPortal(){
   const [authed,setAuthed]=useState(false);
   const [pw,setPw]=useState("");
   const [pwErr,setPwErr]=useState(false);
+  const [dispatchType,setDispatchType]=useState("uk");
   const [form,setForm]=useState({customerEmail:"",orderNumber:"",trackingNumber:""});
   const [sending,setSending]=useState(false);
   const [sent,setSent]=useState(false);
@@ -1173,7 +1174,7 @@ function DispatchPortal(){
   );
 
   return(
-    <div style={{minHeight:"100vh",background:"#050508",padding:"40px 24px",paddingTop:80}}>
+    <div style={{minHeight:"100vh",background:"#050508",padding:"80px 24px 40px"}}>
       <div style={{maxWidth:560,margin:"0 auto"}}>
         <div style={{textAlign:"center",marginBottom:40}}>
           <img src="/logo.png" alt="Vexer" style={{height:48,width:"auto",marginBottom:16}}/>
@@ -1184,7 +1185,7 @@ function DispatchPortal(){
           <motion.div initial={{opacity:0,scale:0.95}} animate={{opacity:1,scale:1}}
             className="vx-glass" style={{padding:"40px",textAlign:"center"}}>
             <div style={{fontSize:32,marginBottom:16}}>✅</div>
-            <div className="orb" style={{fontSize:13,color:"#fff",marginBottom:8}}>TRACKING EMAIL SENT</div>
+            <div className="orb" style={{fontSize:13,color:"#fff",marginBottom:8}}>DISPATCH EMAIL SENT</div>
             <p style={{fontSize:12,color:"rgba(255,255,255,0.4)",marginBottom:24}}>Sent to {form.customerEmail}</p>
             <button className="vx-btn vx-btn-white" style={{padding:"12px 28px",fontSize:9,letterSpacing:"0.2em"}}
               onClick={()=>{setSent(false);setForm({customerEmail:"",orderNumber:"",trackingNumber:""});}}>
@@ -1193,7 +1194,23 @@ function DispatchPortal(){
           </motion.div>
         ):(
           <div className="vx-glass" style={{padding:"32px"}}>
-            <div className="orb" style={{fontSize:9,letterSpacing:"0.4em",color:"rgba(255,255,255,0.5)",marginBottom:24}}>SEND TRACKING EMAIL</div>
+            {/* Dispatch type selector */}
+            <div style={{marginBottom:24}}>
+              <div className="orb" style={{fontSize:9,letterSpacing:"0.3em",color:"rgba(255,255,255,0.4)",marginBottom:12}}>DISPATCH TYPE</div>
+              <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}>
+                <button onClick={()=>setDispatchType("uk")} className="vx-btn" style={{padding:"14px",fontSize:9,letterSpacing:"0.15em",background:dispatchType==="uk"?"#fff":"transparent",color:dispatchType==="uk"?"#050508":"rgba(255,255,255,0.5)",border:"1px solid",borderColor:dispatchType==="uk"?"#fff":"rgba(255,255,255,0.15)",borderRadius:6}}>
+                  🇬🇧 UK — ROYAL MAIL
+                </button>
+                <button onClick={()=>setDispatchType("international")} className="vx-btn" style={{padding:"14px",fontSize:9,letterSpacing:"0.15em",background:dispatchType==="international"?"#fff":"transparent",color:dispatchType==="international"?"#050508":"rgba(255,255,255,0.5)",border:"1px solid",borderColor:dispatchType==="international"?"#fff":"rgba(255,255,255,0.15)",borderRadius:6}}>
+                  🌍 INTERNATIONAL
+                </button>
+              </div>
+            </div>
+
+            <div className="orb" style={{fontSize:9,letterSpacing:"0.4em",color:"rgba(255,255,255,0.5)",marginBottom:20}}>
+              {dispatchType==="uk"?"UK TRACKING DISPATCH":"INTERNATIONAL DISPATCH"}
+            </div>
+
             <div style={{display:"flex",flexDirection:"column",gap:16}}>
               <div>
                 <label style={{fontSize:9,fontFamily:"'Orbitron',sans-serif",letterSpacing:"0.25em",color:"rgba(255,255,255,0.4)",display:"block",marginBottom:8}}>CUSTOMER EMAIL *</label>
@@ -1203,20 +1220,23 @@ function DispatchPortal(){
                 <label style={{fontSize:9,fontFamily:"'Orbitron',sans-serif",letterSpacing:"0.25em",color:"rgba(255,255,255,0.4)",display:"block",marginBottom:8}}>ORDER NUMBER *</label>
                 <input className="vx-input" placeholder="VEXER-1234" value={form.orderNumber} onChange={e=>upd("orderNumber",e.target.value)}/>
               </div>
-              <div>
-                <label style={{fontSize:9,fontFamily:"'Orbitron',sans-serif",letterSpacing:"0.25em",color:"rgba(255,255,255,0.4)",display:"block",marginBottom:8}}>TRACKING NUMBER *</label>
-                <input className="vx-input" placeholder="Tracking number" value={form.trackingNumber} onChange={e=>upd("trackingNumber",e.target.value.toUpperCase())}/>
-              </div>
+              {dispatchType==="uk"&&(
+                <div>
+                  <label style={{fontSize:9,fontFamily:"'Orbitron',sans-serif",letterSpacing:"0.25em",color:"rgba(255,255,255,0.4)",display:"block",marginBottom:8}}>ROYAL MAIL TRACKING NUMBER *</label>
+                  <input className="vx-input" placeholder="e.g. AB123456789GB" value={form.trackingNumber} onChange={e=>upd("trackingNumber",e.target.value.toUpperCase())}/>
+                </div>
+              )}
               {err&&<div style={{fontSize:10,color:"#fca5a5",fontFamily:"'Orbitron',sans-serif"}}>{err}</div>}
               <button className="vx-btn vx-btn-white" style={{width:"100%",padding:"15px",fontSize:10,letterSpacing:"0.25em",opacity:sending?0.7:1}}
                 onClick={async()=>{
-                  if(!form.customerEmail||!form.orderNumber||!form.trackingNumber){setErr("Please fill in all fields.");return;}
+                  if(!form.customerEmail||!form.orderNumber){setErr("Please fill in all required fields.");return;}
+                  if(dispatchType==="uk"&&!form.trackingNumber){setErr("Please enter a tracking number.");return;}
                   setErr("");setSending(true);
                   try{
                     const res=await fetch('/api/send-tracking-vexer',{
                       method:'POST',
                       headers:{'Content-Type':'application/json'},
-                      body:JSON.stringify(form),
+                      body:JSON.stringify({...form,dispatchType}),
                     });
                     const data=await res.json();
                     if(data.success){setSent(true);}
@@ -1224,7 +1244,7 @@ function DispatchPortal(){
                   }catch(e){setErr("Failed to send. Please try again.");}
                   setSending(false);
                 }}>
-                {sending?"SENDING...":"SEND TRACKING EMAIL"}
+                {sending?"SENDING...":"SEND DISPATCH EMAIL"}
               </button>
             </div>
           </div>
@@ -1252,8 +1272,16 @@ export default function App(){
   const [page,setPage]=useState(()=>{
     try{
       const p=new URLSearchParams(window.location.search);
-      if(p.get("success")==="true"){localStorage.removeItem("vexer_cart");return"order-success";}
-      if(p.get("cancelled")==="true") return"home";
+      if(p.get("success")==="true"){
+        localStorage.removeItem("vexer_cart");
+        localStorage.removeItem("vexer_page");
+        window.history.replaceState({},"","/");
+        return"order-success";
+      }
+      if(p.get("cancelled")==="true"){
+        window.history.replaceState({},"","/");
+        return"home";
+      }
       return localStorage.getItem("vexer_page")||"home";
     }catch{return"home";}
   });
@@ -1277,7 +1305,15 @@ export default function App(){
   useEffect(()=>{localStorage.setItem("vexer_wishlist",JSON.stringify(wishlist));},[wishlist]);
   useEffect(()=>{localStorage.setItem("vexer_page",page);window.scrollTo({top:0,behavior:"smooth"});},[page]);
 
-  const navigate=p=>{setPage(p);localStorage.setItem("vexer_page",p);window.scrollTo({top:0,behavior:"smooth"});};
+  const navigate=p=>{
+    setPage(p);
+    if(p==="order-success"){
+      localStorage.removeItem("vexer_page");
+    } else {
+      localStorage.setItem("vexer_page",p);
+    }
+    window.scrollTo({top:0,behavior:"smooth"});
+  };
   const addToCart=p=>{setCart(prev=>{const ex=prev.find(i=>i.cartId===p.cartId);if(ex)return prev.map(i=>i.cartId===p.cartId?{...i,qty:i.qty+1}:i);return[...prev,p];});};
   const removeFromCart=id=>setCart(prev=>prev.filter(i=>i.cartId!==id));
   const toggleWishlist=id=>setWishlist(prev=>prev.includes(id)?prev.filter(i=>i!==id):[...prev,id]);
