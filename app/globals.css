@@ -64,3 +64,20 @@ button:focus-visible, input:focus-visible, select:focus-visible, a:focus-visible
   border: 1px solid rgba(255,255,255,0.08);
   border-radius: 8px;
 }
+
+.vx-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 500; transition: all 0.4s; }
+.vx-nav.scrolled { background: rgba(5,5,8,0.92); backdrop-filter: blur(24px); border-bottom: 1px solid rgba(255,255,255,0.06); }
+
+.vx-glass { background: rgba(255,255,255,0.04); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; }
+
+.vx-divider { height: 1px; background: rgba(255,255,255,0.06); width: 100%; }
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #050508; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
+
+@media (max-width: 768px) {
+  .hide-mobile { display: none !important; }
+  .mobile-menu-btn { display: flex !important; }
+  .footer-grid { grid-template-columns: 1fr 1fr !important; }
+}
