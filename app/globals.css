@@ -80,4 +80,6 @@ button:focus-visible, input:focus-visible, select:focus-visible, a:focus-visible
   .hide-mobile { display: none !important; }
   .mobile-menu-btn { display: flex !important; }
   .footer-grid { grid-template-columns: 1fr 1fr !important; }
+  .mobile-grid-2 { grid-template-columns: 1fr 1fr !important; }
+  .mobile-grid-1 { grid-template-columns: 1fr !important; }
 }
