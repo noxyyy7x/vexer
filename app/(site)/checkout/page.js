@@ -42,9 +42,15 @@ export default function CheckoutPage() {
 
     try {
       const RevolutCheckout = (await import('@revolut/checkout')).default
+      const rawMode = (process.env.NEXT_PUBLIC_REVOLUT_MODE || 'prod').trim().toLowerCase()
+      const mode = ['prod', 'sandbox', 'dev'].includes(rawMode) ? rawMode : 'prod'
+      const publicToken = process.env.NEXT_PUBLIC_REVOLUT_PUBLIC_KEY
+      if (!publicToken) {
+        throw new Error('Payment isn\'t configured correctly (missing public key). Please contact support.')
+      }
       const { destroy } = await RevolutCheckout.embeddedCheckout({
-        publicToken: process.env.NEXT_PUBLIC_REVOLUT_PUBLIC_KEY,
-        mode: process.env.NEXT_PUBLIC_REVOLUT_MODE || 'prod',
+        publicToken,
+        mode,
         locale: 'auto',
         target: widgetRef.current,
         createOrder: async () => {
