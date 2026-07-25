@@ -48,6 +48,9 @@ export async function POST(request) {
     // Idempotency guard — webhooks can be delivered more than once.
     if (order.status === 'pending_payment') {
       await supabase.from('orders').update({ status: 'processing', payment_status: 'paid' }).eq('id', order.id)
+      if (order.discount_code) {
+        await supabase.rpc('increment_discount_usage', { p_code: order.discount_code })
+      }
       await sendConfirmationEmail(order)
     }
   } else if (event === 'ORDER_PAYMENT_DECLINED' || event === 'ORDER_FAILED') {
@@ -74,6 +77,7 @@ async function sendConfirmationEmail(order) {
           <h2>Thanks for your order!</h2>
           <p>Order <strong>${order.order_number}</strong> is confirmed and being prepared.</p>
           <table style="width:100%;border-collapse:collapse;margin:20px 0;">${itemsHtml}</table>
+          ${order.discount_code ? `<p>Discount (${order.discount_code}): -£${Number(order.discount_amount).toFixed(2)}</p>` : ''}
           <p style="font-weight:bold;">Total: £${Number(order.total).toFixed(2)}</p>
           <p>Delivery in approximately 2 weeks. We'll email you when it's dispatched.</p>
           <p style="color:#888;font-size:13px;">Questions? Join our Discord: https://discord.gg/6Xk2HmgT9N</p>

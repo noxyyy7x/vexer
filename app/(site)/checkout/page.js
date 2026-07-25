@@ -17,6 +17,38 @@ export default function CheckoutPage() {
   const [err, setErr] = useState('')
   const [placing, setPlacing] = useState(false)
 
+  const [discountInput, setDiscountInput] = useState('')
+  const [appliedDiscount, setAppliedDiscount] = useState(null) // { code, amount }
+  const [discountErr, setDiscountErr] = useState('')
+  const [applyingDiscount, setApplyingDiscount] = useState(false)
+
+  const finalTotal = cartTotal - (appliedDiscount?.amount || 0)
+
+  async function handleApplyDiscount() {
+    if (!discountInput.trim()) return
+    setApplyingDiscount(true)
+    setDiscountErr('')
+    try {
+      const res = await fetch('/api/validate-discount', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code: discountInput.trim(), subtotal: cartTotal }),
+      })
+      const result = await res.json()
+      if (!result.valid) { setDiscountErr(result.error || 'Invalid code.'); setApplyingDiscount(false); return }
+      setAppliedDiscount({ code: discountInput.trim().toUpperCase(), amount: result.discountAmount })
+    } catch {
+      setDiscountErr('Could not check that code. Please try again.')
+    }
+    setApplyingDiscount(false)
+  }
+
+  function removeDiscount() {
+    setAppliedDiscount(null)
+    setDiscountInput('')
+    setDiscountErr('')
+  }
+
   useEffect(() => {
     if (items.length === 0) router.replace('/')
   }, [items])
@@ -72,6 +104,7 @@ export default function CheckoutPage() {
                 items,
                 customer: { email: form.email, name: form.name, phone: form.phone },
                 shipping: { line1: form.line1, line2: form.line2, city: form.city, postcode: form.postcode, country: form.country },
+                discountCode: appliedDiscount?.code || undefined,
               }),
             })
             const order = await res.json()
@@ -177,14 +210,61 @@ export default function CheckoutPage() {
               <span>{formatPrice(item.price * item.qty)}</span>
             </div>
           ))}
+
           <div className="vx-divider" style={{ margin: '16px 0' }} />
+
+          {!appliedDiscount ? (
+            <div style={{ marginBottom: 16 }}>
+              <div style={{ display: 'flex', gap: 8 }}>
+                <input
+                  className="vx-input"
+                  placeholder="Discount code"
+                  value={discountInput}
+                  onChange={e => setDiscountInput(e.target.value)}
+                  style={{ fontSize: 12, padding: '10px 12px' }}
+                />
+                <button
+                  type="button"
+                  onClick={handleApplyDiscount}
+                  disabled={applyingDiscount || !discountInput.trim()}
+                  className="vx-btn vx-btn-outline"
+                  style={{ padding: '0 16px', fontSize: 9, whiteSpace: 'nowrap' }}
+                >
+                  {applyingDiscount ? '…' : 'APPLY'}
+                </button>
+              </div>
+              {discountErr && <div style={{ fontSize: 11, color: '#fca5a5', marginTop: 6 }}>{discountErr}</div>}
+            </div>
+          ) : (
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 12, marginBottom: 16, padding: '8px 12px', background: 'rgba(74,222,128,0.06)', border: '1px solid rgba(74,222,128,0.2)', borderRadius: 6 }}>
+              <span style={{ color: '#4ade80' }}>✓ {appliedDiscount.code}</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <span style={{ color: '#4ade80', fontWeight: 600 }}>-{formatPrice(appliedDiscount.amount)}</span>
+                <button type="button" onClick={removeDiscount} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', cursor: 'pointer', fontSize: 14 }}>×</button>
+              </div>
+            </div>
+          )}
+
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: 'rgba(255,255,255,0.5)', marginBottom: 6 }}>
+            <span>Subtotal</span>
+            <span>{formatPrice(cartTotal)}</span>
+          </div>
+          {appliedDiscount && (
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: '#4ade80', marginBottom: 6 }}>
+              <span>Discount</span>
+              <span>-{formatPrice(appliedDiscount.amount)}</span>
+            </div>
+          )}
+
+          <div className="vx-divider" style={{ margin: '12px 0' }} />
+
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <span style={{ fontSize: 13, fontWeight: 600 }}>TOTAL</span>
-            <span className="font-orb" style={{ fontSize: 16, fontWeight: 700 }}>{formatPrice(cartTotal)}</span>
+            <span className="font-orb" style={{ fontSize: 16, fontWeight: 700 }}>{formatPrice(finalTotal)}</span>
           </div>
           {currency !== 'GBP' && (
             <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.3)', marginTop: 8 }}>
-              You&apos;ll be charged £{cartTotal.toFixed(2)} GBP.
+              You&apos;ll be charged £{finalTotal.toFixed(2)} GBP.
             </div>
           )}
         </div>

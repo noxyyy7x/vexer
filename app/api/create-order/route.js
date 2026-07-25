@@ -1,6 +1,7 @@
 import { createClient } from '@supabase/supabase-js'
 import { createRevolutOrder } from '@/lib/revolut'
 import { isShippingAllowed } from '@/lib/currency'
+import { validateDiscountCode } from '@/lib/discounts'
 
 // Service role client — bypasses RLS. Only ever used server-side here.
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY)
@@ -14,7 +15,7 @@ function generateOrderNumber() {
 export async function POST(request) {
   try {
     const body = await request.json()
-    const { items, customer, shipping } = body
+    const { items, customer, shipping, discountCode } = body
 
     if (!items?.length) {
       return Response.json({ error: 'No items provided.' }, { status: 400 })
@@ -29,9 +30,27 @@ export async function POST(request) {
     // Total always computed server-side from item prices — never trust a
     // client-supplied total. Prices are always GBP regardless of what
     // currency was displayed to the shopper.
-    const totalGBP = items.reduce((sum, item) => sum + Number(item.price) * Number(item.qty), 0)
-    if (!(totalGBP > 0)) {
+    const subtotalGBP = items.reduce((sum, item) => sum + Number(item.price) * Number(item.qty), 0)
+    if (!(subtotalGBP > 0)) {
       return Response.json({ error: 'Order total must be a positive amount.' }, { status: 400 })
+    }
+
+    // Discount is re-validated here regardless of what the checkout preview
+    // showed — the client's "Apply" step is just UX, this is the real check.
+    let discountAmount = 0
+    let appliedCode = null
+    if (discountCode) {
+      const result = await validateDiscountCode(supabase, discountCode, subtotalGBP)
+      if (!result.valid) {
+        return Response.json({ error: result.error || 'Invalid discount code.' }, { status: 400 })
+      }
+      discountAmount = result.discountAmount
+      appliedCode = result.discount.code
+    }
+
+    const totalGBP = subtotalGBP - discountAmount
+    if (!(totalGBP > 0)) {
+      return Response.json({ error: 'This discount reduces your order to £0 — please contact support to place a free order.' }, { status: 400 })
     }
     const totalMinorUnits = Math.round(totalGBP * 100)
 
@@ -56,6 +75,8 @@ export async function POST(request) {
         shipping_country: countryCode,
         items,
         total: totalGBP,
+        discount_code: appliedCode,
+        discount_amount: discountAmount,
         currency: 'GBP',
         region,
         status: 'pending_payment',
@@ -75,14 +96,18 @@ export async function POST(request) {
       revolutOrder = await createRevolutOrder({
         amount: totalMinorUnits,
         currency: 'GBP',
-        description: items.map(i => `${i.team || ''} ${i.name} x${i.qty}`).join(', ').slice(0, 250),
+        description: (appliedCode ? `[${appliedCode}] ` : '') + items.map(i => `${i.team || ''} ${i.name} x${i.qty}`).join(', ').slice(0, 250),
         reference: orderNumber,
         customer: {
           email: customer.email,
           full_name: customer.name || undefined,
           phone: customer.phone || undefined,
         },
-        lineItems: items.map(item => ({
+        // Revolut requires line item totals to sum exactly to the order
+        // amount — when a discount changes the charged total, we skip
+        // itemized line items rather than risk a mismatch. The order
+        // description above still records what was ordered and the code used.
+        lineItems: appliedCode ? undefined : items.map(item => ({
           name: `${item.team ? item.team + ' — ' : ''}${item.name}${item.size ? ` (${item.size})` : ''}`.slice(0, 250),
           type: 'physical',
           quantity: { value: item.qty },
