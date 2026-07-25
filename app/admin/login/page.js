@@ -30,6 +30,7 @@ function LoginForm() {
     <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'radial-gradient(circle at 50% 0%, rgba(255,255,255,0.04), transparent 60%)' }}>
       <form onSubmit={handleSubmit} className="vx-card" style={{ width: 360, padding: 36 }}>
         <div style={{ textAlign: 'center', marginBottom: 32 }}>
+          <img src="/logo.png" alt="" style={{ height: 36, width: 'auto', margin: '0 auto 10px' }} />
           <div className="font-orb" style={{ fontSize: 20, fontWeight: 700, letterSpacing: '0.15em', marginBottom: 6 }}>VEXER</div>
           <div className="font-orb" style={{ fontSize: 10, letterSpacing: '0.4em', color: 'rgba(255,255,255,0.35)' }}>STAFF ADMIN</div>
         </div>

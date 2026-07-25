@@ -44,8 +44,9 @@ export default function Header() {
     <nav className={`vx-nav${scrolled ? ' scrolled' : ''}`}>
       <div style={{ maxWidth: 1400, margin: '0 auto', padding: '0 24px', height: 64, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
 
-        <Link href="/" className="font-orb" style={{ fontSize: 18, fontWeight: 700, letterSpacing: '0.15em' }}>
-          VEXER
+        <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
+          <img src="/logo.png" alt="" style={{ height: 26, width: 'auto' }} />
+          <span className="font-orb" style={{ fontSize: 18, fontWeight: 700, letterSpacing: '0.15em' }}>VEXER</span>
         </Link>
 
         <div className="hide-mobile" style={{ display: 'flex', gap: 28 }}>

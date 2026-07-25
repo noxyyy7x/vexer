@@ -56,6 +56,8 @@ export default function ProductEditPage({ params }) {
       player_name_price: product.player_name_price ?? '',
       has_badge: !!product.has_badge,
       badge_price: product.badge_price ?? '',
+      has_version_option: !!product.has_version_option,
+      player_version_price: product.player_version_price ?? '',
       has_notes: !!product.has_notes,
     })
     setImages(product.images || [])
@@ -96,6 +98,8 @@ export default function ProductEditPage({ params }) {
       player_name_price: basics.has_player_name && basics.player_name_price !== '' ? Number(basics.player_name_price) : null,
       has_badge: basics.has_badge,
       badge_price: basics.has_badge && basics.badge_price !== '' ? Number(basics.badge_price) : null,
+      has_version_option: basics.has_version_option,
+      player_version_price: basics.has_version_option && basics.player_version_price !== '' ? Number(basics.player_version_price) : null,
       has_notes: basics.has_notes,
       images: images,
       tags: tagsText.split(',').map(s => s.trim()).filter(Boolean),
@@ -210,6 +214,20 @@ export default function ProductEditPage({ params }) {
             <Checkbox label="Active" checked={basics.is_active} onChange={v => set('is_active', v)} />
             <Checkbox label="Featured" checked={basics.is_featured} onChange={v => set('is_featured', v)} />
           </div>
+        </div>
+
+        <div className="vx-card" style={{ padding: 24, marginBottom: 20 }}>
+          <div className="font-orb" style={{ fontSize: 12, letterSpacing: '0.1em', marginBottom: 4 }}>PLAYER / FAN VERSION</div>
+          <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.35)', marginBottom: 16 }}>
+            The price above is used as the Fan Version price. Enable this to let customers also choose the Player Version at a different price.
+          </div>
+          <Checkbox label="Offer Player Version option" checked={basics.has_version_option} onChange={v => set('has_version_option', v)} />
+          {basics.has_version_option && (
+            <div style={{ marginTop: 12, maxWidth: 220 }}>
+              <label style={{ fontSize: 10, color: 'rgba(255,255,255,0.55)', display: 'block', marginBottom: 6 }}>PLAYER VERSION PRICE (£)</label>
+              <input className="vx-input" type="number" step="0.01" min="0.01" value={basics.player_version_price} onChange={e => set('player_version_price', e.target.value)} placeholder="e.g. 89.99" />
+            </div>
+          )}
         </div>
 
         <div className="vx-card" style={{ padding: 24, marginBottom: 20 }}>

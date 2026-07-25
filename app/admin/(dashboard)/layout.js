@@ -43,9 +43,12 @@ function NavLink({ item, active, onClick }) {
 function SidebarContent({ visibleItems, isOwner, pathname, staff, signOut, onNavigate }) {
   return (
     <>
-      <div style={{ padding: '4px 8px 8px', marginBottom: 28 }}>
-        <div className="font-orb" style={{ fontSize: 17, fontWeight: 700, letterSpacing: '0.1em' }}>VEXER</div>
-        <div className="font-orb" style={{ fontSize: 9, letterSpacing: '0.35em', color: 'rgba(255,255,255,0.3)', marginTop: 3 }}>ADMIN</div>
+      <div style={{ padding: '4px 8px 8px', marginBottom: 28, display: 'flex', alignItems: 'center', gap: 9 }}>
+        <img src="/logo.png" alt="" style={{ height: 22, width: 'auto' }} />
+        <div>
+          <div className="font-orb" style={{ fontSize: 17, fontWeight: 700, letterSpacing: '0.1em' }}>VEXER</div>
+          <div className="font-orb" style={{ fontSize: 9, letterSpacing: '0.35em', color: 'rgba(255,255,255,0.3)', marginTop: 3 }}>ADMIN</div>
+        </div>
       </div>
 
       <nav style={{ display: 'flex', flexDirection: 'column', gap: 2, flex: 1 }}>
@@ -133,7 +136,10 @@ function Shell({ children }) {
 
       {/* Mobile top bar */}
       <div className="show-mobile-admin" style={{ display: 'none', position: 'fixed', top: 0, left: 0, right: 0, zIndex: 300, height: 56, alignItems: 'center', justifyContent: 'space-between', padding: '0 16px', background: 'rgba(5,5,8,0.95)', backdropFilter: 'blur(12px)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-        <div className="font-orb" style={{ fontSize: 14, fontWeight: 700, letterSpacing: '0.1em' }}>VEXER ADMIN</div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <img src="/logo.png" alt="" style={{ height: 18, width: 'auto' }} />
+          <div className="font-orb" style={{ fontSize: 14, fontWeight: 700, letterSpacing: '0.1em' }}>VEXER ADMIN</div>
+        </div>
         <button onClick={() => setMobileOpen(true)} style={{ background: 'none', border: 'none', color: '#fff', cursor: 'pointer', padding: 4 }}>
           <Menu size={22} />
         </button>

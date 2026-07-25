@@ -46,7 +46,7 @@ export default function CartDrawer() {
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div style={{ fontSize: 13, fontWeight: 600, marginBottom: 4 }}>{item.team ? `${item.team} — ` : ''}{item.name}</div>
                       <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', marginBottom: 10 }}>
-                        {item.size && `Size ${item.size}`} {item.playerName && `· ${item.playerName} #${item.playerNumber}`}
+                        {item.size && `Size ${item.size}`} {item.version && `· ${item.version === 'player' ? 'Player Version' : 'Fan Version'}`} {item.playerName && `· ${item.playerName} #${item.playerNumber}`}
                       </div>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, padding: '4px 10px' }}>

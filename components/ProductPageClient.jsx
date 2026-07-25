@@ -18,6 +18,7 @@ export default function ProductPageClient({ product }) {
   const isOutOfStock = hasVariants && totalStock <= 0
 
   const [selectedSize, setSelectedSize] = useState('')
+  const [version, setVersion] = useState('fan')
   const [playerName, setPlayerName] = useState('')
   const [playerNumber, setPlayerNumber] = useState('')
   const [addBadge, setAddBadge] = useState(false)
@@ -27,8 +28,13 @@ export default function ProductPageClient({ product }) {
   const [activeImg, setActiveImg] = useState(0)
 
   const images = (product.images || []).map(i => i.url).filter(Boolean)
-  const basePrice = product.price
-  const hasDiscount = product.compare_at_price && product.compare_at_price > product.price
+  const basePrice = product.has_version_option && version === 'player' && product.player_version_price
+    ? product.player_version_price
+    : product.price
+  // Compare-at pricing only makes sense against the fan/base price — skip
+  // the "was" price display when the player version is selected, since
+  // that's a genuinely different product tier, not a discount.
+  const hasDiscount = version === 'fan' && product.compare_at_price && product.compare_at_price > product.price
   const finalPrice = basePrice
     + (playerName && product.player_name_price ? product.player_name_price : 0)
     + (addBadge && product.badge_price ? product.badge_price : 0)
@@ -45,6 +51,7 @@ export default function ProductPageClient({ product }) {
       size: selectedSize || undefined,
       qty: 1,
       price: finalPrice,
+      version: product.has_version_option ? version : undefined,
       playerName: playerName || undefined,
       playerNumber: playerNumber || undefined,
       badge: addBadge || undefined,
@@ -150,6 +157,35 @@ export default function ProductPageClient({ product }) {
                 </div>
               )}
             </div>
+
+            {product.has_version_option && (
+              <div style={{ marginBottom: 24 }}>
+                <div style={{ fontSize: 10, fontFamily: 'var(--font-orbitron)', letterSpacing: '0.3em', color: 'rgba(255,255,255,0.4)', marginBottom: 10 }}>VERSION</div>
+                <div style={{ display: 'flex', gap: 8 }}>
+                  <button
+                    type="button"
+                    onClick={() => setVersion('fan')}
+                    style={{ flex: 1, textAlign: 'left', padding: '12px 14px', borderRadius: 8, border: `1px solid ${version === 'fan' ? '#fff' : 'rgba(255,255,255,0.15)'}`, background: version === 'fan' ? 'rgba(255,255,255,0.06)' : 'transparent', cursor: 'pointer' }}
+                  >
+                    <div style={{ fontSize: 12, fontWeight: 600, color: '#fff', marginBottom: 2 }}>Fan Version</div>
+                    <div className="font-orb" style={{ fontSize: 13, fontWeight: 700, color: version === 'fan' ? '#fff' : 'rgba(255,255,255,0.5)' }}>{fmt(product.price)}</div>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setVersion('player')}
+                    style={{ flex: 1, textAlign: 'left', padding: '12px 14px', borderRadius: 8, border: `1px solid ${version === 'player' ? '#fff' : 'rgba(255,255,255,0.15)'}`, background: version === 'player' ? 'rgba(255,255,255,0.06)' : 'transparent', cursor: 'pointer' }}
+                  >
+                    <div style={{ fontSize: 12, fontWeight: 600, color: '#fff', marginBottom: 2 }}>Player Version</div>
+                    <div className="font-orb" style={{ fontSize: 13, fontWeight: 700, color: version === 'player' ? '#fff' : 'rgba(255,255,255,0.5)' }}>{fmt(product.player_version_price)}</div>
+                  </button>
+                </div>
+                <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.35)', marginTop: 8, lineHeight: 1.6 }}>
+                  {version === 'fan'
+                    ? 'Standard fit and finish — great everyday quality.'
+                    : 'Authentic player-spec fit, fabric and badge detailing.'}
+                </div>
+              </div>
+            )}
 
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '12px 16px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 6, marginBottom: 24 }}>
               <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#4ade80', boxShadow: '0 0 6px #4ade80', flexShrink: 0 }} />

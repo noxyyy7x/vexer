@@ -13,7 +13,10 @@ export default function Footer() {
       <div style={{ maxWidth: 1400, margin: '0 auto' }}>
         <div className="footer-grid" style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr', gap: 40, marginBottom: 56 }}>
           <div>
-            <div className="font-orb" style={{ fontSize: 22, fontWeight: 700, letterSpacing: '0.1em', marginBottom: 16 }}>VEXER</div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
+              <img src="/logo.png" alt="" style={{ height: 30, width: 'auto' }} />
+              <span className="font-orb" style={{ fontSize: 22, fontWeight: 700, letterSpacing: '0.1em' }}>VEXER</span>
+            </div>
             <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.35)', lineHeight: 1.8, maxWidth: 260, marginBottom: 22 }}>
               Premium football jerseys from the world&apos;s greatest clubs and nations. Delivered across Europe, the UK and USA.
             </p>

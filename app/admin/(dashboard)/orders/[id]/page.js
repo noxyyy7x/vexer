@@ -1,10 +1,21 @@
 'use client'
 import { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
+import Link from 'next/link'
+import { ArrowLeft, Clock, User, MapPin, Truck, RotateCcw } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
 
 const fmt = n => `£${Number(n || 0).toFixed(2)}`
 const FIFTEEN_MIN = 15 * 60 * 1000
+
+const STATUS_COLORS = {
+  pending_payment: '#fbbf24',
+  processing: '#60a5fa',
+  dispatched: '#4ade80',
+  delivered: '#4ade80',
+  cancelled: '#fca5a5',
+  refunded: '#fca5a5',
+}
 
 function useElapsed(createdAt) {
   const [now, setNow] = useState(Date.now())
@@ -15,6 +26,15 @@ function useElapsed(createdAt) {
   const elapsed = now - new Date(createdAt).getTime()
   const remaining = Math.max(0, FIFTEEN_MIN - elapsed)
   return { withinWindow: remaining > 0, remaining }
+}
+
+function SectionHeader({ icon: Icon, children }) {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
+      <Icon size={13} strokeWidth={2} color="rgba(255,255,255,0.4)" />
+      <div className="font-orb" style={{ fontSize: 11, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.5)' }}>{children}</div>
+    </div>
+  )
 }
 
 export default function OrderDetailPage() {
@@ -85,14 +105,23 @@ export default function OrderDetailPage() {
 
   return (
     <div style={{ maxWidth: 900 }}>
+      <Link href="/admin/orders" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 11, color: 'rgba(255,255,255,0.4)', marginBottom: 20 }}>
+        <ArrowLeft size={13} /> Back to Orders
+      </Link>
+
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 24, flexWrap: 'wrap', gap: 12 }}>
         <div>
-          <div className="font-orb" style={{ fontSize: 18, fontWeight: 700, marginBottom: 4 }}>{order.order_number}</div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 6 }}>
+            <div className="font-orb" style={{ fontSize: 18, fontWeight: 700 }}>{order.order_number}</div>
+            <span className="vx-badge" style={{ background: `${STATUS_COLORS[order.status]}1a`, color: STATUS_COLORS[order.status] || '#fff' }}>
+              {order.status?.replace('_', ' ')}
+            </span>
+          </div>
           <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.55)' }}>{new Date(order.created_at).toLocaleString('en-GB')}</div>
         </div>
         {withinWindow && order.status !== 'cancelled' && order.status !== 'refunded' && (
-          <div className="vx-card" style={{ padding: '8px 14px', borderColor: '#fbbf24', fontSize: 11, color: '#fbbf24' }}>
-            ⏱ Free cancellation window: {minutesLeft}:{String(secondsLeft).padStart(2, '0')} remaining
+          <div className="vx-card" style={{ padding: '8px 14px', borderColor: 'rgba(251,191,36,0.4)', fontSize: 11, color: '#fbbf24', display: 'flex', alignItems: 'center', gap: 8 }}>
+            <Clock size={13} /> Free cancellation window: {minutesLeft}:{String(secondsLeft).padStart(2, '0')} remaining
           </div>
         )}
       </div>
@@ -102,13 +131,13 @@ export default function OrderDetailPage() {
       <div className="mobile-grid-1" style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: 24 }}>
         <div>
           <div className="vx-card" style={{ padding: 20, marginBottom: 20 }}>
-            <div className="font-orb" style={{ fontSize: 11, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.5)', marginBottom: 16 }}>ITEMS</div>
+            <SectionHeader icon={Truck}>ITEMS</SectionHeader>
             {(order.items || []).map((item, i) => (
               <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 0', borderBottom: i < order.items.length - 1 ? '1px solid rgba(255,255,255,0.06)' : 'none', opacity: item.refunded ? 0.4 : 1 }}>
                 <div>
                   <div style={{ fontSize: 13, fontWeight: 600 }}>{item.team ? `${item.team} — ` : ''}{item.name}</div>
                   <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)' }}>
-                    {item.size && `Size ${item.size}`} {item.qty > 1 && `· Qty ${item.qty}`} {item.playerName && `· ${item.playerName} #${item.playerNumber}`}
+                    {item.size && `Size ${item.size}`} {item.qty > 1 && `· Qty ${item.qty}`} {item.version && `· ${item.version === 'player' ? 'Player Version' : 'Fan Version'}`} {item.playerName && `· ${item.playerName} #${item.playerNumber}`}
                   </div>
                   {item.refunded && <div style={{ fontSize: 10, color: '#fca5a5', marginTop: 2 }}>REFUNDED</div>}
                 </div>
@@ -119,9 +148,9 @@ export default function OrderDetailPage() {
                       onClick={() => handleRefund(i)}
                       disabled={refundingIndex === i}
                       className="vx-btn vx-btn-outline"
-                      style={{ padding: '6px 12px', fontSize: 9, borderColor: '#fca5a5', color: '#fca5a5' }}
+                      style={{ padding: '6px 12px', fontSize: 9, borderColor: '#fca5a5', color: '#fca5a5', display: 'flex', alignItems: 'center', gap: 6 }}
                     >
-                      {refundingIndex === i ? 'REFUNDING…' : 'REFUND'}
+                      <RotateCcw size={11} /> {refundingIndex === i ? 'REFUNDING…' : 'REFUND'}
                     </button>
                   )}
                 </div>
@@ -137,7 +166,7 @@ export default function OrderDetailPage() {
           </div>
 
           <div className="vx-card" style={{ padding: 20 }}>
-            <div className="font-orb" style={{ fontSize: 11, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.5)', marginBottom: 16 }}>DISPATCH</div>
+            <SectionHeader icon={Truck}>DISPATCH</SectionHeader>
             {order.status === 'dispatched' || order.status === 'delivered' ? (
               <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)' }}>
                 Dispatched {order.dispatched_at && new Date(order.dispatched_at).toLocaleDateString('en-GB')} — tracking: <strong>{order.tracking_number}</strong>
@@ -159,14 +188,14 @@ export default function OrderDetailPage() {
 
         <div>
           <div className="vx-card" style={{ padding: 20, marginBottom: 16 }}>
-            <div className="font-orb" style={{ fontSize: 11, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.5)', marginBottom: 12 }}>CUSTOMER</div>
+            <SectionHeader icon={User}>CUSTOMER</SectionHeader>
             <div style={{ fontSize: 13, marginBottom: 4 }}>{order.customer_name}</div>
             <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)', marginBottom: 4 }}>{order.customer_email}</div>
             {order.customer_phone && <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)' }}>{order.customer_phone}</div>}
           </div>
 
           <div className="vx-card" style={{ padding: 20 }}>
-            <div className="font-orb" style={{ fontSize: 11, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.5)', marginBottom: 12 }}>SHIPPING</div>
+            <SectionHeader icon={MapPin}>SHIPPING</SectionHeader>
             <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)', lineHeight: 1.8 }}>
               {order.shipping_line1}<br />
               {order.shipping_line2 && <>{order.shipping_line2}<br /></>}

@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
 import Link from 'next/link'
+import { ArrowLeft, Package, StickyNote, BarChart3, Phone } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
 
 const fmt = n => `£${Number(n || 0).toFixed(2)}`
@@ -50,6 +51,10 @@ export default function CustomerDetailPage() {
 
   return (
     <div style={{ maxWidth: 900 }}>
+      <Link href="/admin/customers" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 11, color: 'rgba(255,255,255,0.4)', marginBottom: 20 }}>
+        <ArrowLeft size={13} /> Back to Customers
+      </Link>
+
       <div style={{ marginBottom: 24 }}>
         <div className="font-orb" style={{ fontSize: 18, fontWeight: 700, marginBottom: 4 }}>{customer.name || customer.email}</div>
         <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.55)' }}>{customer.email}</div>
@@ -58,7 +63,7 @@ export default function CustomerDetailPage() {
       <div className="mobile-grid-1" style={{ display: 'grid', gridTemplateColumns: '1fr 300px', gap: 24 }}>
         <div>
           <div className="vx-card" style={{ padding: 20, marginBottom: 20 }}>
-            <div className="font-orb" style={{ fontSize: 11, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.5)', marginBottom: 16 }}>ORDER HISTORY</div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}><Package size={13} color="rgba(255,255,255,0.4)" /><div className="font-orb" style={{ fontSize: 11, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.5)' }}>ORDER HISTORY</div></div>
             {orders.length === 0 ? (
               <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.35)' }}>No orders yet.</div>
             ) : (
@@ -84,7 +89,7 @@ export default function CustomerDetailPage() {
           </div>
 
           <div className="vx-card" style={{ padding: 20 }}>
-            <div className="font-orb" style={{ fontSize: 11, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.5)', marginBottom: 12 }}>STAFF NOTES</div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}><StickyNote size={13} color="rgba(255,255,255,0.4)" /><div className="font-orb" style={{ fontSize: 11, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.5)' }}>STAFF NOTES</div></div>
             <textarea
               className="vx-input"
               rows={4}
@@ -101,7 +106,7 @@ export default function CustomerDetailPage() {
 
         <div>
           <div className="vx-card" style={{ padding: 20, marginBottom: 16 }}>
-            <div className="font-orb" style={{ fontSize: 11, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.5)', marginBottom: 16 }}>STATS</div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}><BarChart3 size={13} color="rgba(255,255,255,0.4)" /><div className="font-orb" style={{ fontSize: 11, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.5)' }}>STATS</div></div>
             <StatRow label="Total Orders" value={customer.total_orders} />
             <StatRow label="Total Spent" value={fmt(customer.total_spent)} />
             <StatRow label="First Order" value={customer.first_order_at ? new Date(customer.first_order_at).toLocaleDateString('en-GB') : '—'} />
@@ -109,7 +114,7 @@ export default function CustomerDetailPage() {
           </div>
 
           <div className="vx-card" style={{ padding: 20 }}>
-            <div className="font-orb" style={{ fontSize: 11, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.5)', marginBottom: 12 }}>CONTACT</div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}><Phone size={13} color="rgba(255,255,255,0.4)" /><div className="font-orb" style={{ fontSize: 11, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.5)' }}>CONTACT</div></div>
             {customer.phone && <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)', marginBottom: 6 }}>{customer.phone}</div>}
             {(customer.city || customer.country) && (
               <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)' }}>{[customer.city, customer.country].filter(Boolean).join(', ')}</div>
