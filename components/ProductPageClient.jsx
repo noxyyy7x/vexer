@@ -154,7 +154,7 @@ export default function ProductPageClient({ product }) {
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '12px 16px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 6, marginBottom: 24 }}>
               <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#4ade80', boxShadow: '0 0 6px #4ade80', flexShrink: 0 }} />
               <span style={{ fontSize: 11, fontFamily: 'var(--font-orbitron)', color: 'rgba(255,255,255,0.5)', letterSpacing: '0.08em' }}>
-                WORLDWIDE DELIVERY · ~2 WEEKS · TRACKED
+                EUROPE · UK · USA DELIVERY · ~2 WEEKS
               </span>
             </div>
 
@@ -248,7 +248,7 @@ export default function ProductPageClient({ product }) {
             )}
 
             <p style={{ textAlign: 'center', fontSize: 9, fontFamily: 'var(--font-orbitron)', color: 'rgba(255,255,255,0.2)', letterSpacing: '0.12em', marginBottom: 24 }}>
-              SECURE CHECKOUT · WORLDWIDE DELIVERY
+              SECURE CHECKOUT · EUROPE · UK · USA
             </p>
 
             {product.description && (
@@ -262,7 +262,7 @@ export default function ProductPageClient({ product }) {
                 product.brand && ['Brand', product.brand],
                 product.season && ['Season', product.season],
                 product.kit_type && ['Kit', product.kit_type.toUpperCase()],
-                ['Delivery', '~2 Weeks Worldwide'],
+                ['Delivery', '~2 Weeks — Europe, UK, USA'],
                 ['Returns', '3 Days (No Custom)'],
               ].filter(Boolean).map(([label, value], i) => (
                 <div key={label} style={{ display: 'flex', justifyContent: 'space-between', padding: '12px 16px', borderBottom: '1px solid rgba(255,255,255,0.04)', background: i % 2 === 0 ? 'rgba(255,255,255,0.01)' : 'transparent' }}>

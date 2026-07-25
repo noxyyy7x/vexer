@@ -13,7 +13,7 @@ export default function ShippingPage() {
       <div style={{ padding: '60px 24px 40px', textAlign: 'center', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
         <div className="font-orb" style={{ fontSize: 9, letterSpacing: '0.5em', color: 'rgba(255,255,255,0.4)', marginBottom: 12 }}>VEXER</div>
         <h1 className="font-orb" style={{ fontSize: 'clamp(2rem,5vw,4rem)', fontWeight: 900, color: '#fff', marginBottom: 12 }}>SHIPPING</h1>
-        <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)' }}>Worldwide delivery on every order</p>
+        <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)' }}>Delivering across Europe, the UK and USA</p>
       </div>
 
       <div style={{ maxWidth: 720, margin: '0 auto', padding: '60px 24px 96px', display: 'flex', flexDirection: 'column', gap: 16 }}>
