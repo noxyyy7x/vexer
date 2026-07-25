@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
+import { Heart, ChevronLeft, ChevronRight } from 'lucide-react'
 import { useCart } from '@/context/CartContext'
 import { useCurrency } from '@/context/CurrencyContext'
 
@@ -67,7 +68,7 @@ export default function ProductPageClient({ product }) {
         <div className="mobile-grid-1" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'start' }}>
 
           <div>
-            <div style={{ position: 'relative', aspectRatio: '3/4', borderRadius: 8, overflow: 'hidden', background: '#0d0d12', border: '1px solid rgba(255,255,255,0.08)', marginBottom: 12 }}>
+            <div style={{ position: 'relative', aspectRatio: '3/4', borderRadius: 12, overflow: 'hidden', background: 'linear-gradient(160deg,#111116,#0a0a0d)', border: '1px solid rgba(255,255,255,0.08)', marginBottom: 12 }}>
               {images[activeImg] && (
                 <img src={images[activeImg]} alt={product.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               )}
@@ -78,10 +79,35 @@ export default function ProductPageClient({ product }) {
               )}
               <button
                 onClick={() => toggleWishlist(product.id)}
-                style={{ position: 'absolute', top: 16, right: 16, background: 'rgba(5,5,8,0.7)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '50%', width: 36, height: 36, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', fontSize: 16 }}
+                aria-label="Toggle wishlist"
+                style={{ position: 'absolute', top: 16, right: 16, background: 'rgba(10,10,15,0.75)', backdropFilter: 'blur(8px)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '50%', width: 38, height: 38, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
               >
-                {isWishlisted ? '❤️' : '🤍'}
+                <Heart size={17} strokeWidth={2} fill={isWishlisted ? '#fff' : 'none'} color="#fff" />
               </button>
+
+              {images.length > 1 && (
+                <>
+                  <button
+                    onClick={() => setActiveImg(i => (i - 1 + images.length) % images.length)}
+                    aria-label="Previous image"
+                    style={{ position: 'absolute', top: '50%', left: 14, transform: 'translateY(-50%)', background: 'rgba(10,10,15,0.65)', backdropFilter: 'blur(8px)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '50%', width: 40, height: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
+                  >
+                    <ChevronLeft size={20} color="#fff" />
+                  </button>
+                  <button
+                    onClick={() => setActiveImg(i => (i + 1) % images.length)}
+                    aria-label="Next image"
+                    style={{ position: 'absolute', top: '50%', right: 14, transform: 'translateY(-50%)', background: 'rgba(10,10,15,0.65)', backdropFilter: 'blur(8px)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '50%', width: 40, height: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
+                  >
+                    <ChevronRight size={20} color="#fff" />
+                  </button>
+                  <div style={{ position: 'absolute', bottom: 14, left: '50%', transform: 'translateX(-50%)', display: 'flex', gap: 6 }}>
+                    {images.map((_, i) => (
+                      <div key={i} style={{ width: i === activeImg ? 18 : 6, height: 5, borderRadius: 3, background: i === activeImg ? '#fff' : 'rgba(255,255,255,0.35)', transition: 'all 0.3s' }} />
+                    ))}
+                  </div>
+                </>
+              )}
             </div>
             {images.length > 1 && (
               <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>

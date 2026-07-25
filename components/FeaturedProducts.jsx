@@ -34,7 +34,7 @@ export default async function FeaturedProducts() {
             VIEW ALL →
           </Link>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(240px,1fr))', gap: 16 }}>
+        <div className="product-grid">
           {products.map((p, i) => <ProductCard key={p.id} product={p} index={i} />)}
         </div>
       </div>

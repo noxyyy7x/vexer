@@ -179,8 +179,23 @@ export default function ProductEditPage({ params }) {
                 {GENDERS.map(g => <option key={g} value={g}>{g}</option>)}
               </select>
             </Field>
-            <Field label="CATEGORY"><input className="vx-input" value={basics.category} onChange={e => set('category', e.target.value)} /></Field>
-            <Field label="KIT TYPE"><input className="vx-input" value={basics.kit_type} onChange={e => set('kit_type', e.target.value)} placeholder="e.g. home, away, third" /></Field>
+            <Field label="CATEGORY">
+              <select className="vx-input" value={basics.category} onChange={e => set('category', e.target.value)} style={{ cursor: 'pointer' }}>
+                <option value="">Select category</option>
+                <option value="national">National (club)</option>
+                <option value="international">International (country)</option>
+                <option value="retro">Retro</option>
+              </select>
+            </Field>
+            <Field label="KIT TYPE">
+              <select className="vx-input" value={basics.kit_type} onChange={e => set('kit_type', e.target.value)} style={{ cursor: 'pointer' }}>
+                <option value="">Select kit type</option>
+                <option value="home">Home</option>
+                <option value="away">Away</option>
+                <option value="third">Third</option>
+                <option value="goalkeeper">Goalkeeper</option>
+              </select>
+            </Field>
             <Field label="LEAGUE"><input className="vx-input" value={basics.league} onChange={e => set('league', e.target.value)} /></Field>
             <Field label="BRAND"><input className="vx-input" value={basics.brand} onChange={e => set('brand', e.target.value)} /></Field>
             <Field label="SEASON"><input className="vx-input" value={basics.season} onChange={e => set('season', e.target.value)} placeholder="e.g. 2025/26" /></Field>

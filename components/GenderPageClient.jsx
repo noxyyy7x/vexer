@@ -98,7 +98,7 @@ export default function GenderPageClient({ gender, genderLabel, products, initia
             )}
           </div>
         ) : (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(240px,1fr))', gap: 16 }}>
+          <div className="product-grid">
             {displayed.map((p, i) => <ProductCard key={p.id} product={p} index={i} />)}
           </div>
         )}

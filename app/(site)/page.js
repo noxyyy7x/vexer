@@ -1,6 +1,6 @@
 import HeroCarousel from '@/components/HeroCarousel'
-import GenderStrip from '@/components/GenderStrip'
 import FeaturedCollections from '@/components/FeaturedCollections'
+import GenderStrip from '@/components/GenderStrip'
 import FeaturedProducts from '@/components/FeaturedProducts'
 import { HowItWorks, TrustBadges, DiscordCTA } from '@/components/StaticSections'
 
@@ -13,12 +13,12 @@ export default function HomePage() {
   return (
     <main>
       <HeroCarousel />
-      <TrustBadges />
-      <GenderStrip />
       <FeaturedCollections />
+      <GenderStrip />
       <FeaturedProducts />
       <HowItWorks />
       <DiscordCTA />
+      <TrustBadges />
     </main>
   )
 }

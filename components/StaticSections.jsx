@@ -31,7 +31,7 @@ export function HowItWorks() {
 export function TrustBadges() {
   const badges = [['🌍', 'Worldwide Delivery'], ['🔒', 'Secure Checkout'], ['⚡', 'Fast Processing'], ['💬', 'Discord Support'], ['✅', 'Premium Quality']]
   return (
-    <div style={{ padding: 24, borderTop: '1px solid rgba(255,255,255,0.06)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+    <div style={{ padding: '32px 24px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
       <div style={{ maxWidth: 1400, margin: '0 auto', display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 40 }}>
         {badges.map(([icon, label]) => (
           <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
