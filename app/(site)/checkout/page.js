@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { useCart } from '@/context/CartContext'
 import { useCurrency } from '@/context/CurrencyContext'
-import { isShippingAllowed } from '@/lib/currency'
+import { isShippingAllowed, SHIPPING_COUNTRY_OPTIONS } from '@/lib/currency'
 
 export default function CheckoutPage() {
   const { items, cartTotal, clearCart } = useCart()
@@ -110,14 +110,17 @@ export default function CheckoutPage() {
                 <input className="vx-input" placeholder="Address line 2" value={form.line2} onChange={e => set('line2', e.target.value)} style={{ gridColumn: '1 / -1' }} />
                 <input className="vx-input" placeholder="City *" value={form.city} onChange={e => set('city', e.target.value)} />
                 <input className="vx-input" placeholder="Postcode *" value={form.postcode} onChange={e => set('postcode', e.target.value)} />
-                <input
+                <select
                   className="vx-input"
-                  placeholder="Country code (e.g. GB, US, FR) *"
                   value={form.country}
-                  onChange={e => set('country', e.target.value.toUpperCase())}
-                  maxLength={2}
-                  style={{ gridColumn: '1 / -1' }}
-                />
+                  onChange={e => set('country', e.target.value)}
+                  style={{ gridColumn: '1 / -1', cursor: 'pointer', color: form.country ? '#fff' : 'rgba(255,255,255,0.4)' }}
+                >
+                  <option value="">Country *</option>
+                  {SHIPPING_COUNTRY_OPTIONS.map(c => (
+                    <option key={c.code} value={c.code}>{c.name}</option>
+                  ))}
+                </select>
               </div>
 
               {err && (
