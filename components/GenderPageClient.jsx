@@ -20,8 +20,8 @@ function Select({ label, val, opts, onChange }) {
   )
 }
 
-export default function GenderPageClient({ gender, genderLabel, products, initialCategory }) {
-  const [filters, setFilters] = useState({ category: initialCategory || '', collectionId: '', kitType: '' })
+export default function GenderPageClient({ gender, genderLabel, products, initialCategory, initialCollectionId }) {
+  const [filters, setFilters] = useState({ category: initialCategory || '', collectionId: initialCollectionId || '', kitType: '' })
   const setF = (k, v) => setFilters(f => ({ ...f, [k]: v }))
   const anyActive = Object.values(filters).some(v => v)
   const clearAll = () => setFilters({ category: '', collectionId: '', kitType: '' })
@@ -45,7 +45,7 @@ export default function GenderPageClient({ gender, genderLabel, products, initia
   })
 
   return (
-    <div style={{ paddingTop: 64, minHeight: '100vh' }}>
+    <div style={{ minHeight: '100vh' }}>
       <div style={{ padding: '48px 24px 32px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
         <div style={{ maxWidth: 1400, margin: '0 auto' }}>
           <div className="font-orb" style={{ fontSize: 9, letterSpacing: '0.5em', color: 'rgba(255,255,255,0.4)', marginBottom: 8 }}>

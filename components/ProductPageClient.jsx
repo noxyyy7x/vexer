@@ -3,11 +3,12 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { useCart } from '@/context/CartContext'
+import { useCurrency } from '@/context/CurrencyContext'
 
-const fmt = p => `£${Number(p).toFixed(2)}`
 
 export default function ProductPageClient({ product }) {
   const { addToCart, wishlist, toggleWishlist } = useCart()
+  const { formatPrice: fmt } = useCurrency()
   const isWishlisted = wishlist.includes(product.id)
 
   const variants = product.product_variants || []
@@ -53,7 +54,7 @@ export default function ProductPageClient({ product }) {
   }
 
   return (
-    <div style={{ paddingTop: 64, minHeight: '100vh' }}>
+    <div style={{ minHeight: '100vh' }}>
       <div style={{ maxWidth: 1400, margin: '0 auto', padding: '48px 24px 96px' }}>
         <Link
           href="/men"

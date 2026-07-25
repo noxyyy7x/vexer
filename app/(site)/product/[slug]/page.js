@@ -2,6 +2,8 @@ import { notFound } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
 import ProductPageClient from '@/components/ProductPageClient'
 
+export const dynamic = 'force-dynamic'
+
 export async function generateMetadata({ params }) {
   const { data: product } = await supabase
     .from('products')

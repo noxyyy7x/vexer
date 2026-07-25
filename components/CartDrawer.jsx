@@ -1,11 +1,12 @@
 'use client'
 import Link from 'next/link'
 import { useCart } from '@/context/CartContext'
+import { useCurrency } from '@/context/CurrencyContext'
 
-const fmt = p => `£${Number(p).toFixed(2)}`
 
 export default function CartDrawer() {
   const { items, cartOpen, setCartOpen, removeFromCart, updateQty, cartTotal } = useCart()
+  const { formatPrice: fmt, currency, shippingAllowed } = useCurrency()
 
   if (!cartOpen) return null
 
@@ -50,10 +51,20 @@ export default function CartDrawer() {
 
         {items.length > 0 && (
           <div style={{ padding: 24, borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 16 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
               <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)' }}>TOTAL</span>
               <span className="font-orb" style={{ fontSize: 16, fontWeight: 700 }}>{fmt(cartTotal)}</span>
             </div>
+            {currency !== 'GBP' && (
+              <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.3)', marginBottom: 16 }}>
+                Shown in {currency} for reference — you&apos;ll be charged in GBP at checkout.
+              </div>
+            )}
+            {!shippingAllowed && (
+              <div style={{ fontSize: 11, color: '#fbbf24', background: 'rgba(251,191,36,0.08)', border: '1px solid rgba(251,191,36,0.2)', borderRadius: 6, padding: '10px 12px', marginBottom: 16 }}>
+                We currently only ship to Europe, the UK and the USA. Your location may not be eligible for delivery.
+              </div>
+            )}
             <Link href="/checkout" onClick={() => setCartOpen(false)} className="vx-btn vx-btn-white" style={{ display: 'block', textAlign: 'center', padding: 14, fontSize: 10 }}>
               CHECKOUT
             </Link>

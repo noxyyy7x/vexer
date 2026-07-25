@@ -20,7 +20,7 @@ export default function HeroCarousel() {
   const slide = SLIDES[current]
 
   return (
-    <div style={{ height: '100vh', position: 'relative', overflow: 'hidden', paddingTop: 64 }}>
+    <div style={{ height: '100vh', position: 'relative', overflow: 'hidden' }}>
       <AnimatePresence mode="wait">
         <motion.div key={current} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.8 }} style={{ position: 'absolute', inset: 0 }}>
           <img src={slide.img} alt={slide.label} style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.35)' }} />

@@ -2,13 +2,13 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useCart } from '@/context/CartContext'
-
-const fmt = p => `£${Number(p).toFixed(2)}`
+import { useCurrency } from '@/context/CurrencyContext'
 
 export default function ProductCard({ product, index = 0 }) {
   const [hov, setHov] = useState(false)
   const [added, setAdded] = useState(false)
   const { addToCart, wishlist, toggleWishlist } = useCart()
+  const { formatPrice } = useCurrency()
 
   const price = product.price
   const hasDiscount = product.compare_at_price && product.compare_at_price > product.price
@@ -84,11 +84,11 @@ export default function ProductCard({ product, index = 0 }) {
           <div>
             {hasDiscount && (
               <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)', textDecoration: 'line-through', marginBottom: 2 }}>
-                {fmt(product.compare_at_price)}
+                {formatPrice(product.compare_at_price)}
               </div>
             )}
             <div style={{ fontSize: 16, fontFamily: 'var(--font-orbitron)', fontWeight: 700, color: hasDiscount ? '#4ade80' : '#fff' }}>
-              {fmt(price)}
+              {formatPrice(price)}
             </div>
           </div>
           <button

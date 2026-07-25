@@ -2,6 +2,8 @@ import { notFound } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
 import GenderPageClient from '@/components/GenderPageClient'
 
+export const dynamic = 'force-dynamic'
+
 const VALID_GENDERS = ['men', 'women', 'kids', 'babies']
 const GENDER_LABEL = { men: "Men's", women: "Women's", kids: "Kids'", babies: "Babies'" }
 
@@ -30,6 +32,7 @@ export default async function GenderPage({ params, searchParams }) {
       genderLabel={GENDER_LABEL[gender]}
       products={products || []}
       initialCategory={searchParams?.category || ''}
+      initialCollectionId={searchParams?.collection || ''}
     />
   )
 }
