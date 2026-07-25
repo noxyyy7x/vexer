@@ -33,61 +33,78 @@ export default function CheckoutPage() {
     return ''
   }
 
-  async function handleContinueToPayment(e) {
+  function handleContinueToPayment(e) {
     e.preventDefault()
     const validationError = validate()
     if (validationError) { setErr(validationError); return }
     setErr('')
     setPlacing(true)
-
-    try {
-      const RevolutCheckout = (await import('@revolut/checkout')).default
-      const rawMode = (process.env.NEXT_PUBLIC_REVOLUT_MODE || 'prod').trim().toLowerCase()
-      const mode = ['prod', 'sandbox', 'dev'].includes(rawMode) ? rawMode : 'prod'
-      const publicToken = process.env.NEXT_PUBLIC_REVOLUT_PUBLIC_KEY
-      if (!publicToken) {
-        throw new Error('Payment isn\'t configured correctly (missing public key). Please contact support.')
-      }
-      const { destroy } = await RevolutCheckout.embeddedCheckout({
-        publicToken,
-        mode,
-        locale: 'auto',
-        target: widgetRef.current,
-        createOrder: async () => {
-          const res = await fetch('/api/create-order', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              items,
-              customer: { email: form.email, name: form.name, phone: form.phone },
-              shipping: { line1: form.line1, line2: form.line2, city: form.city, postcode: form.postcode, country: form.country },
-            }),
-          })
-          const order = await res.json()
-          if (!res.ok) throw new Error(order.error || 'Failed to create order')
-          window.__vexerOrderId = order.orderId
-          window.__vexerOrderNumber = order.orderNumber
-          return { publicId: order.token }
-        },
-        onSuccess: () => {
-          clearCart()
-          router.push(`/order-confirmation?order=${window.__vexerOrderNumber || ''}`)
-        },
-        onError: ({ error }) => {
-          setErr(error?.message || 'Payment failed. Please try again.')
-          setPlacing(false)
-        },
-        onCancel: () => {
-          setPlacing(false)
-        },
-      })
-      destroyRef.current = destroy
-      setWidgetMounted(true)
-    } catch (e) {
-      setErr(e.message || 'Could not start payment. Please try again.')
-      setPlacing(false)
-    }
+    // Render the widget container first — mounting happens in the effect
+    // below, once the div actually exists in the DOM. Calling
+    // embeddedCheckout before that point targets a null ref.
+    setWidgetMounted(true)
   }
+
+  useEffect(() => {
+    if (!widgetMounted || !widgetRef.current) return
+
+    let cancelled = false
+
+    async function mountWidget() {
+      try {
+        const RevolutCheckout = (await import('@revolut/checkout')).default
+        const rawMode = (process.env.NEXT_PUBLIC_REVOLUT_MODE || 'prod').trim().toLowerCase()
+        const mode = ['prod', 'sandbox', 'dev'].includes(rawMode) ? rawMode : 'prod'
+        const publicToken = process.env.NEXT_PUBLIC_REVOLUT_PUBLIC_KEY
+        if (!publicToken) {
+          throw new Error('Payment isn\'t configured correctly (missing public key). Please contact support.')
+        }
+        const { destroy } = await RevolutCheckout.embeddedCheckout({
+          publicToken,
+          mode,
+          locale: 'auto',
+          target: widgetRef.current,
+          createOrder: async () => {
+            const res = await fetch('/api/create-order', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                items,
+                customer: { email: form.email, name: form.name, phone: form.phone },
+                shipping: { line1: form.line1, line2: form.line2, city: form.city, postcode: form.postcode, country: form.country },
+              }),
+            })
+            const order = await res.json()
+            if (!res.ok) throw new Error(order.error || 'Failed to create order')
+            window.__vexerOrderId = order.orderId
+            window.__vexerOrderNumber = order.orderNumber
+            return { publicId: order.token }
+          },
+          onSuccess: () => {
+            clearCart()
+            router.push(`/order-confirmation?order=${window.__vexerOrderNumber || ''}`)
+          },
+          onError: ({ error }) => {
+            setErr(error?.message || 'Payment failed. Please try again.')
+            setPlacing(false)
+          },
+          onCancel: () => {
+            setPlacing(false)
+          },
+        })
+        if (!cancelled) destroyRef.current = destroy
+      } catch (e) {
+        if (!cancelled) {
+          setErr(e.message || 'Could not start payment. Please try again.')
+          setWidgetMounted(false)
+          setPlacing(false)
+        }
+      }
+    }
+
+    mountWidget()
+    return () => { cancelled = true }
+  }, [widgetMounted])
 
   useEffect(() => () => destroyRef.current?.(), [])
 
