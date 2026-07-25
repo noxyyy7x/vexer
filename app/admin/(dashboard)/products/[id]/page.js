@@ -186,8 +186,8 @@ export default function ProductEditPage({ params }) {
             <Field label="SEASON"><input className="vx-input" value={basics.season} onChange={e => set('season', e.target.value)} placeholder="e.g. 2025/26" /></Field>
             <Field label="TAG"><input className="vx-input" value={basics.tag} onChange={e => set('tag', e.target.value)} placeholder="e.g. New" /></Field>
             <Field label="SUPPLIER REF"><input className="vx-input" value={basics.supplier_ref} onChange={e => set('supplier_ref', e.target.value)} /></Field>
-            <Field label="PRICE"><input className="vx-input" type="number" step="0.01" value={basics.price} onChange={e => set('price', e.target.value)} required /></Field>
-            <Field label="COMPARE-AT PRICE"><input className="vx-input" type="number" step="0.01" value={basics.compare_at_price} onChange={e => set('compare_at_price', e.target.value)} /></Field>
+            <Field label="PRICE"><input className="vx-input" type="number" step="0.01" min="0.01" value={basics.price} onChange={e => set('price', e.target.value)} required /></Field>
+            <Field label="COMPARE-AT PRICE"><input className="vx-input" type="number" step="0.01" min="0" value={basics.compare_at_price} onChange={e => set('compare_at_price', e.target.value)} /></Field>
             <Field label="TAGS (comma-separated)"><input className="vx-input" value={tagsText} onChange={e => setTagsText(e.target.value)} placeholder="retro, limited, world-cup" /></Field>
           </div>
           <Field label="DESCRIPTION"><textarea className="vx-input" rows={4} value={basics.description} onChange={e => set('description', e.target.value)} /></Field>
@@ -203,13 +203,13 @@ export default function ProductEditPage({ params }) {
             <div>
               <Checkbox label="Allow player name" checked={basics.has_player_name} onChange={v => set('has_player_name', v)} />
               <div style={{ marginTop: 8 }}>
-                <input className="vx-input" type="number" step="0.01" disabled={!basics.has_player_name} value={basics.player_name_price} onChange={e => set('player_name_price', e.target.value)} placeholder="Price add-on" />
+                <input className="vx-input" type="number" step="0.01" min="0" disabled={!basics.has_player_name} value={basics.player_name_price} onChange={e => set('player_name_price', e.target.value)} placeholder="Price add-on" />
               </div>
             </div>
             <div>
               <Checkbox label="Allow badge" checked={basics.has_badge} onChange={v => set('has_badge', v)} />
               <div style={{ marginTop: 8 }}>
-                <input className="vx-input" type="number" step="0.01" disabled={!basics.has_badge} value={basics.badge_price} onChange={e => set('badge_price', e.target.value)} placeholder="Price add-on" />
+                <input className="vx-input" type="number" step="0.01" min="0" disabled={!basics.has_badge} value={basics.badge_price} onChange={e => set('badge_price', e.target.value)} placeholder="Price add-on" />
               </div>
             </div>
             <div>

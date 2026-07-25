@@ -30,6 +30,9 @@ export async function POST(request) {
     // client-supplied total. Prices are always GBP regardless of what
     // currency was displayed to the shopper.
     const totalGBP = items.reduce((sum, item) => sum + Number(item.price) * Number(item.qty), 0)
+    if (!(totalGBP > 0)) {
+      return Response.json({ error: 'Order total must be a positive amount.' }, { status: 400 })
+    }
     const totalMinorUnits = Math.round(totalGBP * 100)
 
     const orderNumber = generateOrderNumber()
