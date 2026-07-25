@@ -96,7 +96,7 @@ export default function DiscountsPage() {
 
       {showForm && (
         <form onSubmit={handleCreate} className="vx-card" style={{ padding: 24, marginBottom: 28 }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 14, marginBottom: 14 }}>
+          <div className="admin-grid-3" style={{ marginBottom: 14 }}>
             <div>
               <label style={{ fontSize: 10, color: 'rgba(255,255,255,0.55)', display: 'block', marginBottom: 6 }}>CODE</label>
               <input className="vx-input" value={form.code} onChange={e => setForm(f => ({ ...f, code: e.target.value.toUpperCase() }))} placeholder="SUMMER10" required />
@@ -116,7 +116,7 @@ export default function DiscountsPage() {
             </div>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 14, marginBottom: 20 }}>
+          <div className="admin-grid-3" style={{ marginBottom: 20 }}>
             <div>
               <label style={{ fontSize: 10, color: 'rgba(255,255,255,0.55)', display: 'block', marginBottom: 6 }}>
                 EXPIRES <span style={{ color: 'rgba(255,255,255,0.3)' }}>(optional)</span>

@@ -164,7 +164,7 @@ export default function ProductEditPage({ params }) {
       <form onSubmit={handleSave}>
         <div className="vx-card" style={{ padding: 24, marginBottom: 20 }}>
           <div className="font-orb" style={{ fontSize: 12, letterSpacing: '0.1em', marginBottom: 16 }}>BASICS</div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 14 }}>
+          <div className="admin-grid-2" style={{ marginBottom: 14 }}>
             <Field label="TITLE"><input className="vx-input" value={basics.title} onChange={e => set('title', e.target.value)} required /></Field>
             <Field label="SLUG"><input className="vx-input" value={basics.slug} onChange={e => set('slug', e.target.value)} required /></Field>
             <Field label="SUBTITLE"><input className="vx-input" value={basics.subtitle} onChange={e => set('subtitle', e.target.value)} /></Field>
@@ -199,7 +199,7 @@ export default function ProductEditPage({ params }) {
 
         <div className="vx-card" style={{ padding: 24, marginBottom: 20 }}>
           <div className="font-orb" style={{ fontSize: 12, letterSpacing: '0.1em', marginBottom: 16 }}>MERCHANDISING OPTIONS</div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+          <div className="admin-grid-2">
             <div>
               <Checkbox label="Allow player name" checked={basics.has_player_name} onChange={v => set('has_player_name', v)} />
               <div style={{ marginTop: 8 }}>

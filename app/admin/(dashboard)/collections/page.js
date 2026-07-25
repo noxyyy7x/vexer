@@ -105,7 +105,7 @@ export default function CollectionsPage() {
 
       {showForm && (
         <form onSubmit={handleSubmit} className="vx-card" style={{ padding: 24, marginBottom: 28 }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 14 }}>
+          <div className="admin-grid-2" style={{ marginBottom: 14 }}>
             <div>
               <label style={{ fontSize: 10, color: 'rgba(255,255,255,0.55)', display: 'block', marginBottom: 6 }}>TITLE</label>
               <input className="vx-input" value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))} required />

@@ -91,7 +91,7 @@ export default function StaffPage() {
 
       {showForm && (
         <form onSubmit={handleCreate} className="vx-card" style={{ padding: 24, marginBottom: 28 }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 14 }}>
+          <div className="admin-grid-2" style={{ marginBottom: 14 }}>
             <div>
               <label style={{ fontSize: 10, color: 'rgba(255,255,255,0.55)', display: 'block', marginBottom: 6 }}>NAME</label>
               <input className="vx-input" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} required />
@@ -109,7 +109,7 @@ export default function StaffPage() {
           </div>
 
           <label style={{ fontSize: 10, color: 'rgba(255,255,255,0.55)', display: 'block', marginBottom: 10 }}>PERMISSIONS</label>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 10, marginBottom: 20 }}>
+          <div className="admin-grid-4" style={{ marginBottom: 20 }}>
             {PERMISSIONS.map(p => (
               <label key={p.key} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, cursor: 'pointer' }}>
                 <input type="checkbox" checked={form.permissions[p.key]} onChange={e => setForm(f => ({ ...f, permissions: { ...f.permissions, [p.key]: e.target.checked } }))} />
