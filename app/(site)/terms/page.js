@@ -26,7 +26,7 @@ export default function TermsPage() {
         </Section>
 
         <Section title="ORDERING">
-          By placing an order you confirm that all information provided is accurate and complete. We reserve the right to cancel any order at our discretion. Once an order is placed it cannot be modified. All prices are displayed in your local currency for convenience but are charged in GBP.
+          By placing an order you confirm that all information provided is accurate and complete. We reserve the right to cancel any order at our discretion. You have <strong style={{ color: '#fff' }}>15 minutes</strong> after placing an order to request a cancellation or change via Discord; after this window, production begins and the order cannot be modified or cancelled. All prices are displayed in your local currency for convenience but are charged in GBP.
         </Section>
 
         <Section title="PAYMENTS">

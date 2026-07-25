@@ -17,6 +17,13 @@ export default function ReturnsPage() {
       </div>
 
       <div style={{ maxWidth: 720, margin: '0 auto', padding: '60px 24px 96px', display: 'flex', flexDirection: 'column', gap: 16 }}>
+        <div style={{ padding: '20px 24px', background: 'rgba(74,222,128,0.06)', border: '1px solid rgba(74,222,128,0.2)', borderRadius: 8 }}>
+          <div className="font-orb" style={{ fontSize: 9, letterSpacing: '0.3em', color: '#4ade80', marginBottom: 8 }}>15-MINUTE CHANGE WINDOW</div>
+          <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', lineHeight: 1.8, margin: 0 }}>
+            You have <strong style={{ color: '#fff' }}>15 minutes</strong> after placing your order to cancel or remove an item, free of charge — contact us on Discord straight away with your order number. After 15 minutes, production begins and your order can no longer be changed or cancelled.
+          </p>
+        </div>
+
         <div style={{ padding: '20px 24px', background: 'rgba(239,68,68,0.06)', border: '1px solid rgba(239,68,68,0.2)', borderRadius: 8 }}>
           <div className="font-orb" style={{ fontSize: 9, letterSpacing: '0.3em', color: 'rgba(239,68,68,0.7)', marginBottom: 8 }}>CUSTOM JERSEYS — NO RETURNS</div>
           <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', lineHeight: 1.8, margin: 0 }}>

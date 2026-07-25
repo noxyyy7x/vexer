@@ -4,7 +4,8 @@ import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 
 const FAQS = [
-  { q: 'Where do you ship to?', a: "We ship worldwide. No matter where you are, we'll get your jersey to you." },
+  { q: 'Can I cancel or change my order after placing it?', a: "Yes — you have 15 minutes after placing your order to cancel it or change an item, free of charge. Just message us on Discord straight away with your order number. After 15 minutes, production begins and orders can no longer be changed or cancelled." },
+  { q: 'Where do you ship to?', a: "We currently ship to Europe, the UK and the USA." },
   { q: 'How long does delivery take?', a: 'Approximately 2 weeks from the date of your order. We source your jersey and dispatch it as quickly as possible.' },
   { q: 'Can I track my order?', a: "Tracking is currently available for UK customers via Royal Mail. We're working on bringing tracking to international orders — watch this space." },
   { q: 'What is your returns policy?', a: 'We accept returns on standard jerseys only. Custom jerseys with player names and numbers cannot be returned as they are made specifically for you. Returns must be requested within 3 days of receiving your order.' },
