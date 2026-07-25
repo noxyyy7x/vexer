@@ -82,7 +82,7 @@ export default function OrdersPage() {
         </div>
       ) : (
         <div className="vx-card" style={{ overflow: 'auto' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+          <table className="admin-table" style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
               <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
                 {['Order', 'Customer', 'Items', 'Total', 'Status', 'Region', 'Date'].map(h => (

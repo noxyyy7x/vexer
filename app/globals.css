@@ -113,3 +113,6 @@ button:focus-visible, input:focus-visible, select:focus-visible, a:focus-visible
     gap: 10px !important;
   }
 }
+
+.admin-table tbody tr { transition: background 0.15s; }
+.admin-table tbody tr:hover { background: rgba(255,255,255,0.025); }

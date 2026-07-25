@@ -179,7 +179,7 @@ export default function ProductsPage() {
         <div style={{ color: 'rgba(255,255,255,0.35)', fontSize: 12 }}>Loading…</div>
       ) : (
         <div className="vx-card" style={{ overflow: 'auto' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+          <table className="admin-table" style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
               <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
                 {['Title', 'Collection', 'Gender', 'Category', 'Price', 'Stock', 'Active', 'Featured', ''].map(h => (
